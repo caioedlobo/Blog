@@ -2,20 +2,27 @@ package br.com.caiolobo.blogapplication.config;
 
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Account;
+import br.com.caiolobo.blogapplication.models.Authority;
 import br.com.caiolobo.blogapplication.models.Post;
+import br.com.caiolobo.blogapplication.repositories.AuthorityRepository;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class SeedData implements CommandLineRunner {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Autowired
     private AccountService accountService;
@@ -26,17 +33,37 @@ public class SeedData implements CommandLineRunner {
         List<Account> accounts = accountService.getAll();
 
         if (accounts.isEmpty()) {
+
+            Authority user = new Authority();
+            user.setName("ROLE_USER");
+            authorityRepository.save(user);
+
+            Authority admin = new Authority();
+            admin.setName("ROLE_ADMIN");
+            authorityRepository.save(admin);
+
             Account account1 = new Account();
             account1.setEmail("fulano@gmail.com");
             account1.setPassword("password");
             account1.setFirstName("Fulano");
             account1.setLastName("da Silva");
 
+            Set<Authority> authorities1 = new HashSet<>();
+            authorityRepository.findById("ROLE_USER").ifPresent(authorities1::add);
+            account1.setAuthorities(authorities1);
+
+
             Account account2 = new Account();
             account2.setEmail("fulano2@gmail.com");
             account2.setPassword("password2");
             account2.setFirstName("Fulano 2");
             account2.setLastName("da Silva 2");
+
+            Set<Authority> authorities2 = new HashSet<>();
+            authorityRepository.findById("ROLE_USER").ifPresent(authorities2::add);
+            authorityRepository.findById("ROLE_ADMIN").ifPresent(authorities2::add);
+            account1.setAuthorities(authorities2);
+
 
             accountService.save(account1);
             accountService.save(account2);
