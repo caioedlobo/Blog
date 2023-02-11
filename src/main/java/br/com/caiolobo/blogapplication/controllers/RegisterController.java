@@ -21,7 +21,7 @@ public class RegisterController {
     public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
         System.out.println(account);
 
-        if (accountService.findByEmail((account.getEmail()))) {
+        if (accountService.accountExists((account.getEmail()))) {
             throw new RuntimeException("Usuário já está cadastrado");
         }
 

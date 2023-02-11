@@ -25,7 +25,6 @@ public class Post {
 
     private LocalDateTime createdAt;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private Account account;

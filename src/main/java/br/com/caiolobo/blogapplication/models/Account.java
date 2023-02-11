@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class Account {
     @NotEmpty(message = "Campo último nome é obrigatório")
     private String lastName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private List<Post> posts;
 }

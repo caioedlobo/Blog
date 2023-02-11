@@ -47,6 +47,7 @@ public class PostService {
 
     private PostDTO convertPostToDto(Post post){
         return PostDTO.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
                 .createdAt(post.getCreatedAt())
