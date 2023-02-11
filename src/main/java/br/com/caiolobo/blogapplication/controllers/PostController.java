@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.controllers;
 
+import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ public class PostController {
     private PostService postService;
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Optional<Post>> getPost(@PathVariable(value = "id") Long id){
+    public ResponseEntity<PostDTO> getPost(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(postService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody Post post){
-        return ResponseEntity.ok(postService.save(post));
+    public ResponseEntity<Post> createPost(@RequestBody PostDTO postDto){
+        return ResponseEntity.ok(postService.save(postDto));
     }
 }

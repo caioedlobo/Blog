@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.services;
 
+import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,37 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public Post save(Post post){
-        if(post.getId() == null){
-            post.setCreatedAt(LocalDateTime.now());
+    public Post save(PostDTO postDto){
+        if(postDto.getId() == null){
+            postDto.setCreatedAt(LocalDateTime.now());
         }
-        return postRepository.save(post);
+        return postRepository.save(convertDtoToPost(postDto));
     }
 
-    public Optional<Post> getById(Long id){
-        return postRepository.findById(id);
+    public PostDTO getById(Long id){
+        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Teste"));
+        return convertPostToDto(post);
     }
 
     public List<Post> getAll(){
         return postRepository.findAll();
+    }
+
+    private Post convertDtoToPost(PostDTO postDto){
+        return Post.builder()
+                .title(postDto.getTitle())
+                .body(postDto.getBody())
+                .createdAt(postDto.getCreatedAt())
+                .account(postDto.getAccount())
+                .build();
+    }
+
+    private PostDTO convertPostToDto(Post post){
+        return PostDTO.builder()
+                .title(post.getTitle())
+                .body(post.getBody())
+                .createdAt(post.getCreatedAt())
+                .account(post.getAccount())
+                .build();
     }
 }

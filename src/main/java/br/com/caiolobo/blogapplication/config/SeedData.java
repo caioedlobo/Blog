@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.config;
 
+import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.services.AccountService;
@@ -40,12 +41,12 @@ public class SeedData implements CommandLineRunner {
             accountService.save(account1);
             accountService.save(account2);
 
-            Post post1 = new Post();
+            PostDTO post1 = new PostDTO();
             post1.setTitle("Título do post 1");
             post1.setBody("Corpo do texto do post 1");
             post1.setAccount(account1);
 
-            Post post2 = new Post();
+            PostDTO post2 = new PostDTO();
             post2.setTitle("Título do post 2");
             post2.setBody("Corpo do texto do post 2");
             post2.setAccount(account2);
