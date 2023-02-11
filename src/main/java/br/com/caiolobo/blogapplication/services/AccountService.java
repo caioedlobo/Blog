@@ -17,10 +17,16 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public void save(Account account){accountRepository.save(account);
+    public Account save(Account account){return accountRepository.save(account);
     }
-
     public List<Account> getAll(){
         return accountRepository.findAll();
+    }
+
+    public Boolean findByEmail(String email){
+        if(accountRepository.findByEmail(email) == null){
+            return false;   // se não encontrou
+        }
+        return true;
     }
 }
