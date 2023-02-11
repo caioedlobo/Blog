@@ -17,8 +17,7 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public Account save(Account account){
-        return accountRepository.save(account);
+    public void save(Account account){accountRepository.save(account);
     }
 
     public List<Account> getAll(){

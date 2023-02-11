@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/register")
 public class RegisterController {
@@ -14,7 +16,7 @@ public class RegisterController {
     private AccountRepository accountRepository;
 
     @PostMapping
-    public ResponseEntity<Account> register(@RequestBody Account account){
+    public ResponseEntity<Account> register(@Valid @RequestBody Account account){
 
         return ResponseEntity.ok(accountRepository.save(account));
     }

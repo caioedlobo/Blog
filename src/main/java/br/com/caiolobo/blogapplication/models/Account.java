@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter
@@ -17,12 +18,16 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Campo email é obrigatório")
     private String email;
 
+    @NotEmpty(message = "Campo senha é obrigatório")
     private String password;
 
+    @NotEmpty(message = "Campo primeiro nome é obrigatório")
     private String firstName;
 
+    @NotEmpty(message = "Campo último nome é obrigatório")
     private String lastName;
 
     @OneToMany(mappedBy = "account")
