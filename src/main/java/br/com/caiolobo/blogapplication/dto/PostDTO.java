@@ -3,7 +3,7 @@ package br.com.caiolobo.blogapplication.dto;
 import br.com.caiolobo.blogapplication.models.Account;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
