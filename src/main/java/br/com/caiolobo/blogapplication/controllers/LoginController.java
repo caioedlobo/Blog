@@ -1,9 +1,7 @@
 package br.com.caiolobo.blogapplication.controllers;
 
-import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.repositories.AuthorityRepository;
 import br.com.caiolobo.blogapplication.services.AccountService;
-import br.com.caiolobo.blogapplication.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
