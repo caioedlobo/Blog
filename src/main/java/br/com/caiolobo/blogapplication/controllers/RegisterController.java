@@ -1,7 +1,8 @@
 package br.com.caiolobo.blogapplication.controllers;
 
-import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.repositories.AccountRepository;
+import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
+import br.com.caiolobo.blogapplication.auth.AuthenticationResponse;
+
 import br.com.caiolobo.blogapplication.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,21 +12,18 @@ import jakarta.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/register")
+@RequestMapping(value = "/auth")
 public class RegisterController {
 
     @Autowired
     private AccountService accountService;
 
-    @PostMapping
-    public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
-        System.out.println(account);
+    @PostMapping(value = "/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
 
-        if (accountService.accountExists((account.getEmail()))) {
-            throw new RuntimeException("Usuário já está cadastrado");
-        }
-
-        return ResponseEntity.ok(accountService.save(account));
     }
+
+    @PostMapping(value = "/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {}
 
 }
