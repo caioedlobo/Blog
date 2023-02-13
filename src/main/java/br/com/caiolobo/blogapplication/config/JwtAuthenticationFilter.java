@@ -24,8 +24,7 @@ import java.security.Security;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -44,10 +43,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);      // pega o token
         userEmail = jwtService.extractUsername(jwt); //extrai o email do usuário através do token;
-        System.out.println(userEmail);
-        System.out.println("----------------------------------------------------------------------------------------------------------");
+
         if( userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){       // saber se já está autenticado
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);     // chegar se ele já está no banco de dados;
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);     //userEmail chegar se ele já está no banco de dados;
             if(jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()

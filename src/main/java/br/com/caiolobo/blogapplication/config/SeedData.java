@@ -2,7 +2,10 @@ package br.com.caiolobo.blogapplication.config;
 
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Account;
+import br.com.caiolobo.blogapplication.models.Authority;
 import br.com.caiolobo.blogapplication.models.Post;
+import br.com.caiolobo.blogapplication.models.Role;
+import br.com.caiolobo.blogapplication.repositories.AuthorityRepository;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +35,20 @@ public class SeedData implements CommandLineRunner {
 
         if (accounts.isEmpty()) {
 
-            Authority user = new Authority();
+            /*Authority user = new Authority();
             user.setName("ROLE_USER");
             authorityRepository.save(user);
 
             Authority admin = new Authority();
             admin.setName("ROLE_ADMIN");
             authorityRepository.save(admin);
-
+            */
             Account account1 = new Account();
             account1.setEmail("fulano@gmail.com");
             account1.setPassword("password");
             account1.setFirstName("Fulano");
             account1.setLastName("da Silva");
+            account1.setRole(Role.USER);
 
             Set<Authority> authorities1 = new HashSet<>();
             authorityRepository.findById("ROLE_USER").ifPresent(authorities1::add);
@@ -56,6 +60,7 @@ public class SeedData implements CommandLineRunner {
             account2.setPassword("password2");
             account2.setFirstName("Fulano 2");
             account2.setLastName("da Silva 2");
+            account2.setRole(Role.USER);
 
             Set<Authority> authorities2 = new HashSet<>();
             authorityRepository.findById("ROLE_USER").ifPresent(authorities2::add);
