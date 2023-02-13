@@ -25,10 +25,10 @@ public class JwtService{
 
 
     public String extractUsername(String jwtToken) {
-        return extractClaims(jwtToken, Claims::getSubject);
+        return extractClaim(jwtToken, Claims::getSubject);
     }
 
-    public <T> T extractClaims(String jwtToken, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(jwtToken);
         return claimsResolver.apply(claims);
     }
@@ -49,6 +49,20 @@ public class JwtService{
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
+
+    public boolean isTokenValid(String token, UserDetails userDetails){     //verifica se o token é valido para usse usuário
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);     //verifica se username extraído é o mesmo do userDetails;
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
     public Claims extractAllClaims(String jwtToken){
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
