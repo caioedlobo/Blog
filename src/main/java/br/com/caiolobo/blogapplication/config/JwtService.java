@@ -21,7 +21,9 @@ public class JwtService{
     @Autowired
     static Environment env;
 
-    private static final String SECRET_KEY = env.getProperty("secret.key", "null");
+
+    //private static final String SECRET_KEY = env.getProperty("secret.key", "null");
+    private static final String SECRET_KEY= "67566B59703373367639792442264528482B4D6251655468576D5A7134743777";
 
 
     public String extractUsername(String jwtToken) {
@@ -67,7 +69,7 @@ public class JwtService{
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(jwtToken)
+                .parseClaimsJws(jwtToken)
                 .getBody();
     }
 

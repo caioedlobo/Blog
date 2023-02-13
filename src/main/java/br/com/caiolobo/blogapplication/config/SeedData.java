@@ -2,9 +2,7 @@ package br.com.caiolobo.blogapplication.config;
 
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.models.Authority;
 import br.com.caiolobo.blogapplication.models.Post;
-import br.com.caiolobo.blogapplication.repositories.AuthorityRepository;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
