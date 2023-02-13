@@ -1,10 +1,7 @@
 package br.com.caiolobo.blogapplication.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,6 +18,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @ToString
+@Builder
+@AllArgsConstructor
 @Entity
 public class Account implements UserDetails {
 
@@ -53,6 +52,7 @@ public class Account implements UserDetails {
     //Métodos para implementar do UserDetails
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return List.of(new SimpleGrantedAuthority(role.name()));

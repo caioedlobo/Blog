@@ -3,7 +3,8 @@ package br.com.caiolobo.blogapplication.controllers;
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.auth.AuthenticationResponse;
 
-import br.com.caiolobo.blogapplication.services.AccountService;
+import br.com.caiolobo.blogapplication.auth.AuthenticationService;
+import br.com.caiolobo.blogapplication.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,16 @@ import java.util.Optional;
 public class RegisterController {
 
     @Autowired
-    private AccountService accountService;
+    private AuthenticationService authenticationService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
-
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {}
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
 
 }
