@@ -33,4 +33,8 @@ public class AccountService {
     public Optional<Account> findByEmail(String email){
         return Optional.ofNullable(accountRepository.findByEmail(email));
     }
+
+    public Optional<Account> findById(Long id){
+        return accountRepository.findById(id);
+    }
 }
