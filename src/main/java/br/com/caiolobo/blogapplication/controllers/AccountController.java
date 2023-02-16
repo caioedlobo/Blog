@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.controllers;
 
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Account> getAccount(@PathVariable(value = "id") Long id){
+    public ResponseEntity<AccountDTO> getAccount(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(
                 accountService.findById(id)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+                        .orElseThrow(() -> new RuntimeException("Não foi possível obter o usuário.")));
     }
 }

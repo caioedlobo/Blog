@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.config;
 
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.models.Authority;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class SeedData implements CommandLineRunner {
@@ -74,17 +76,34 @@ public class SeedData implements CommandLineRunner {
             PostDTO post1 = new PostDTO();
             post1.setTitle("Título do post 1");
             post1.setBody("Corpo do texto do post 1");
-            post1.setAccount(account1);
+            post1.setAccount(convertAccountToDto(account1));
 
             PostDTO post2 = new PostDTO();
             post2.setTitle("Título do post 2");
             post2.setBody("Corpo do texto do post 2");
-            post2.setAccount(account2);
+            post2.setAccount(convertAccountToDto(account2));
 
             postService.save(post1);
             postService.save(post2);
     }
 
+    }
+    private AccountDTO convertAccountToDto(Account account){
+        return AccountDTO.builder()
+                .id(account.getId())
+                .email(account.getUsername())
+                .firstName(account.getFirstName())
+                .lastName(account.getLastName())
+                .authorities(addAccountAuthoritiesToDto(account))
+                .posts(account.getPosts())
+                .build();
 
+    }
+    private Set<String> addAccountAuthoritiesToDto(Account account){
+        Set<String> authorities = new HashSet<>();
+        account.getAuthorities().stream()
+                .map(authority -> authorities.add(String.valueOf(authority)))
+                .collect(Collectors.toSet());
+        return authorities;
     }
 }

@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.models;
 
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

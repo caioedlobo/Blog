@@ -1,12 +1,15 @@
 package br.com.caiolobo.blogapplication.services;
 
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.models.Account;
+import br.com.caiolobo.blogapplication.models.Authority;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -34,7 +37,29 @@ public class AccountService {
         return Optional.ofNullable(accountRepository.findByEmail(email));
     }
 
-    public Optional<Account> findById(Long id){
-        return accountRepository.findById(id);
+    public Optional<AccountDTO> findById(Long id){
+        Account account = accountRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+        return Optional.ofNullable(convertAccountToDto(account));
+
+    }
+
+    private AccountDTO convertAccountToDto(Account account){
+        return AccountDTO.builder()
+                .id(account.getId())
+                .email(account.getUsername())
+                .firstName(account.getFirstName())
+                .lastName(account.getLastName())
+                .authorities(addAccountAuthoritiesToDto(account))
+                .posts(account.getPosts())
+                .build();
+    }
+
+    private Set<String> addAccountAuthoritiesToDto(Account account){
+        Set<String> authorities = new HashSet<>();
+        account.getAuthorities().stream()
+                .map(authority -> authorities.add(String.valueOf(authority)))
+                .collect(Collectors.toSet());
+        return authorities;
     }
 }
