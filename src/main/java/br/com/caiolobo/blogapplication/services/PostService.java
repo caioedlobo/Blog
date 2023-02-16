@@ -45,7 +45,6 @@ public class PostService {
 
     public PostDTO getById(Long id){
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Teste"));
-        //return convertPostToDto(post);
         return convertPostToDto(post);
     }
 
