@@ -9,7 +9,6 @@ import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,29 +38,37 @@ public class PostService {
         }
         else if(postDto.getId() == null){
             postDto.setCreatedAt(LocalDateTime.now());
-            postDto.setAccount(account);
+            postDto.setAccount(convertAccountToDto(account));
         }
 
-        return postRepository.save(convertDtoToPost(postDto, emailAccount));
+        return postRepository.save(convertDtoToPost(postDto));
     }
 
     public PostDTO getById(Long id){
         Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException());
-        return convertPostToDto(post);
+        PostDTO postDto = new PostDTO();
+        postDto.setTitle(post.getTitle());
+        postDto.setId(post.getId());
+        postDto.setCreatedAt(post.getCreatedAt());
+        postDto.setBody(post.getBody());
+        postDto.setAccount(convertAccountToDto(post.getAccount()));
+        return postDto;
+        //return convertPostToDto(post);
     }
 
     public List<Post> getAll(){
         return postRepository.findAll();
     }
 
-    private Post convertDtoToPost(PostDTO postDto, String email){
+    private Post convertDtoToPost(PostDTO postDto){
         return Post.builder()
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .createdAt(postDto.getCreatedAt())
-                .account(postDto.getAccount())
+                .account(convertDtoToAccount(postDto.getAccount()))
                 .build();
     }
+
 
     private PostDTO convertPostToDto(Post post){
         return PostDTO.builder()
@@ -69,9 +76,10 @@ public class PostService {
                 .title(post.getTitle())
                 .body(post.getBody())
                 .createdAt(post.getCreatedAt())
-                .account(post.getAccount())
+                .account(convertAccountToDto(post.getAccount()))
                 .build();
     }
+
 
     private AccountDTO convertAccountToDto(Account account){
         return AccountDTO.builder()
@@ -80,12 +88,11 @@ public class PostService {
                 .firstName(account.getFirstName())
                 .lastName(account.getLastName())
                 .authorities(addAccountAuthoritiesToDto(account))
-                .posts(account.getPosts())
                 .build();
     }
 
     private Account convertDtoToAccount(AccountDTO accountDto){
-        return accountRepository.findById(accountDto.getId()).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        return accountRepository.findByEmail(accountDto.getEmail());
     }
 
     private Set<String> addAccountAuthoritiesToDto(Account account){

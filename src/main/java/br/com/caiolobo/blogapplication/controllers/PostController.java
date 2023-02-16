@@ -2,6 +2,7 @@ package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.config.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
+import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody PostDTO postDto, HttpServletRequest request){
+    public ResponseEntity<Post> createPost(@RequestBody PostDTO postDto, HttpServletRequest request){
         String token = request.getHeader("Authorization").substring(7); // remove o prefixo "Bearer "
         String emailAccount = jwtService.extractUsername(token);
 

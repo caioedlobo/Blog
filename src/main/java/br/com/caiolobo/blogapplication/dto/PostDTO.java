@@ -20,5 +20,5 @@ public class PostDTO {
 
     private LocalDateTime createdAt;
 
-    private Account account;
+    private AccountDTO account;
 }

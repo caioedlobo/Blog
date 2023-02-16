@@ -18,6 +18,5 @@ public class AccountDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private List<Post> posts;
     private Set<String> authorities = new HashSet<>();
 }

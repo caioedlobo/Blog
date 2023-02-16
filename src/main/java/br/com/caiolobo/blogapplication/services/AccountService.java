@@ -51,7 +51,6 @@ public class AccountService {
                 .firstName(account.getFirstName())
                 .lastName(account.getLastName())
                 .authorities(addAccountAuthoritiesToDto(account))
-                .posts(account.getPosts())
                 .build();
     }
 

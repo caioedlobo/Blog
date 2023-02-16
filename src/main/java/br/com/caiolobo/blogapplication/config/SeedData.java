@@ -76,12 +76,12 @@ public class SeedData implements CommandLineRunner {
             PostDTO post1 = new PostDTO();
             post1.setTitle("Título do post 1");
             post1.setBody("Corpo do texto do post 1");
-            post1.setAccount(account1);
+            //post1.setAccount(account1);
 
             PostDTO post2 = new PostDTO();
             post2.setTitle("Título do post 2");
             post2.setBody("Corpo do texto do post 2");
-            post2.setAccount(account2);
+            //post2.setAccount(account2);
 
             //postService.save(post1, "fulano@gmail.com");
             //postService.save(post2, "fulano2@gmail.com");
@@ -95,7 +95,7 @@ public class SeedData implements CommandLineRunner {
                 .firstName(account.getFirstName())
                 .lastName(account.getLastName())
                 .authorities(addAccountAuthoritiesToDto(account))
-                .posts(account.getPosts())
+                 //.posts(account.getPosts())
                 .build();
 
     }
