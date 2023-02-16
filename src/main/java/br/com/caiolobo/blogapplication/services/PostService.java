@@ -2,6 +2,8 @@ package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
+import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
+import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
@@ -33,7 +35,7 @@ public class PostService {
     public Post save(PostDTO postDto, String emailAccount){
         Account account = accountRepository.findByEmail(emailAccount);
         if(account == null){
-            throw new UsernameNotFoundException("Usuário não encontrado no sistema.");
+            throw new UserNotFoundException();
         }
         else if(postDto.getId() == null){
             postDto.setCreatedAt(LocalDateTime.now());
@@ -44,7 +46,7 @@ public class PostService {
     }
 
     public PostDTO getById(Long id){
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Teste"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException());
         return convertPostToDto(post);
     }
 

@@ -83,8 +83,8 @@ public class SeedData implements CommandLineRunner {
             post2.setBody("Corpo do texto do post 2");
             post2.setAccount(account2);
 
-            postService.save(post1, "fulano@gmail.com");
-            postService.save(post2, "fulano2@gmail.com");
+            //postService.save(post1, "fulano@gmail.com");
+            //postService.save(post2, "fulano2@gmail.com");
     }
 
     }
