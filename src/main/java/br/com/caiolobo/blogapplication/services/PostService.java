@@ -22,6 +22,7 @@ public class PostService {
     private PostRepository postRepository;
     private final AccountRepository accountRepository;
 
+
     @Autowired
     public PostService(PostRepository postRepository,
                        AccountRepository accountRepository) {
@@ -29,11 +30,17 @@ public class PostService {
         this.accountRepository = accountRepository;
     }
 
-    public Post save(PostDTO postDto){
-        if(postDto.getId() == null){
-            postDto.setCreatedAt(LocalDateTime.now());
+    public Post save(PostDTO postDto, String emailAccount){
+        Account account = accountRepository.findByEmail(emailAccount);
+        if(account == null){
+            throw new UsernameNotFoundException("Usuário não encontrado no sistema.");
         }
-        return postRepository.save(convertDtoToPost(postDto));
+        else if(postDto.getId() == null){
+            postDto.setCreatedAt(LocalDateTime.now());
+            postDto.setAccount(account);
+        }
+
+        return postRepository.save(convertDtoToPost(postDto, emailAccount));
     }
 
     public PostDTO getById(Long id){
@@ -46,7 +53,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    private Post convertDtoToPost(PostDTO postDto){
+    private Post convertDtoToPost(PostDTO postDto, String email){
         return Post.builder()
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
