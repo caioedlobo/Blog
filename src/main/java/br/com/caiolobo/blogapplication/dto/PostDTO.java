@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.dto;
 
+import br.com.caiolobo.blogapplication.models.Account;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,5 +20,5 @@ public class PostDTO {
 
     private LocalDateTime createdAt;
 
-    private AccountDTO account;
+    private Account account;
 }

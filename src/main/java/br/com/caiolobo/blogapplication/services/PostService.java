@@ -51,7 +51,7 @@ public class PostService {
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .createdAt(postDto.getCreatedAt())
-                .account(convertDtoToAccount(postDto.getAccount()))
+                .account(postDto.getAccount())
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class PostService {
                 .title(post.getTitle())
                 .body(post.getBody())
                 .createdAt(post.getCreatedAt())
-                .account(convertAccountToDto(post.getAccount()))
+                .account(post.getAccount())
                 .build();
     }
 
