@@ -46,14 +46,7 @@ public class PostService {
 
     public PostDTO getById(Long id){
         Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException());
-        PostDTO postDto = new PostDTO();
-        postDto.setTitle(post.getTitle());
-        postDto.setId(post.getId());
-        postDto.setCreatedAt(post.getCreatedAt());
-        postDto.setBody(post.getBody());
-        postDto.setAccount(convertAccountToDto(post.getAccount()));
-        return postDto;
-        //return convertPostToDto(post);
+        return convertPostToDto(post);
     }
 
     public List<Post> getAll(){
@@ -71,13 +64,13 @@ public class PostService {
 
 
     private PostDTO convertPostToDto(Post post){
-        return PostDTO.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .body(post.getBody())
-                .createdAt(post.getCreatedAt())
-                .account(convertAccountToDto(post.getAccount()))
-                .build();
+        PostDTO postDto = new PostDTO();
+        postDto.setTitle(post.getTitle());
+        postDto.setId(post.getId());
+        postDto.setCreatedAt(post.getCreatedAt());
+        postDto.setBody(post.getBody());
+        postDto.setAccount(convertAccountToDto(post.getAccount()));
+        return postDto;
     }
 
 

@@ -21,8 +21,6 @@ public class AccountController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<AccountDTO> getAccount(@PathVariable(value = "id") Long id){
-        return ResponseEntity.ok(
-                accountService.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Não foi possível obter o usuário.")));
+        return ResponseEntity.ok(accountService.findById(id));
     }
 }
