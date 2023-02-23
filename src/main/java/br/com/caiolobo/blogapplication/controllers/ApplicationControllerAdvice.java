@@ -30,15 +30,23 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(message);
     }
 
-
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleMethodNotValidException(MethodArgumentNotValidException ex ){
+        List<String> errors = ex.getBindingResult().getAllErrors()
+                .stream()
+                .map(error -> error.getDefaultMessage())
+                .collect(Collectors.toList());
+        return new ApiErrors(errors);
+    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleConstraintViolationException(ConstraintViolationException ex ){    // se enviar algo que não é válido
+    public ApiErrors handleConstraintViolationException(ConstraintViolationException ex ){
         List<String> errors = ex.getConstraintViolations()
                 .stream()
                 .map(error -> error.getMessage())
-                .collect(Collectors.toList());  //esse getDefaultMessage é aquela mensagem que colocamos na annotation
+                .collect(Collectors.toList());
         return new ApiErrors(errors);
     }
 
