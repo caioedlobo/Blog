@@ -5,16 +5,16 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.List;
 
-public class ApiErrrors {
+public class ApiErrors {
 
     @Getter
     private List<String> errors;
 
-    public ApiErrrors(List<String> errors) {
+    public ApiErrors(List<String> errors) {
         this.errors = errors;
     }
 
-    public ApiErrrors(String message) {
+    public ApiErrors(String message) {
         this.errors = Arrays.asList(message);
 
     }

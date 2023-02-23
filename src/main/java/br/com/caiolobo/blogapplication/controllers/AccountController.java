@@ -21,7 +21,7 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping(value = "/{id}")
-    @JsonView(View.ExcludeAccountfromPost.class)
+    @JsonView(View.ExcludeAccountFromPost.class)
     public ResponseEntity<AccountDTO> getAccount(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(accountService.findById(id));
     }

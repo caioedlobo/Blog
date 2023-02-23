@@ -16,15 +16,20 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountDTO {
-    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
+    @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
     private Long id;
-    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
+
+    @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
     private String email;
-    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
+
+    @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
     private String firstName;
-    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
+
+    @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
     private String lastName;
-    @JsonView(View.ExcludeAccountfromPost.class)
+
+    @JsonView(View.ExcludeAccountFromPost.class)
     private List<PostDTO> posts;
+
     private Set<String> authorities = new HashSet<>();
 }

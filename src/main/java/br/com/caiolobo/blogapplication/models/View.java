@@ -5,7 +5,7 @@ public interface View {
 
     }
 
-    public class ExcludeAccountfromPost{
+    public class ExcludeAccountFromPost{
 
     }
 }
