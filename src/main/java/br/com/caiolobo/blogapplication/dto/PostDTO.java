@@ -22,7 +22,7 @@ public class PostDTO {
     private String title;
 
     @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
-    @NotEmpty(message = "{campo.title-obrigatorio}")
+    @NotEmpty(message = "{campo.body-obrigatorio}")
     private String body;
 
     @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
