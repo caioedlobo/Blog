@@ -4,11 +4,9 @@ import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.models.Authority;
 import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,12 +28,6 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Boolean accountExists(String email){
-        if(accountRepository.findByEmail(email) == null){
-            return false;   // se não encontrou
-        }
-        return true;
-    }
     public Optional<Account> findByEmail(String email){
         return Optional.ofNullable(accountRepository.findByEmail(email));
     }
@@ -48,10 +40,8 @@ public class AccountService {
         accountDTO.setAuthorities(addAccountAuthoritiesToDto(account));
         accountDTO.setFirstName(account.getFirstName());
         accountDTO.setLastName(account.getLastName());
-        accountDTO.setPosts(account.getPosts());
+        accountDTO.setPosts(convertPostsToDto(account.getPosts()));
         return accountDTO;
-        //return convertAccountToDto(account);
-
     }
 
     private AccountDTO convertAccountToDto(Account account){
@@ -74,12 +64,11 @@ public class AccountService {
         return authorities;
     }
 
-    private List<PostDTO> convertPostToDto(List<Post> posts) {
+    private List<PostDTO> convertPostsToDto(List<Post> posts) {
         List<PostDTO> postsDtos = new ArrayList<>();
         posts.stream()
                 .map(post -> postsDtos.add(convertSinglePost(post)))
                 .collect(Collectors.toList());
-        System.out.println(postsDtos);
         return postsDtos;
     }
     private PostDTO convertSinglePost(Post post){

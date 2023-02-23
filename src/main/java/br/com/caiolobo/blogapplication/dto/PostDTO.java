@@ -13,16 +13,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDTO {
-    @JsonView(View.Base.class)
+    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
     private Long id;
 
-    @JsonView(View.Base.class)
+    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
     private String title;
 
-    @JsonView(View.Base.class)
+    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
     private String body;
 
-    @JsonView(View.Base.class)
+    @JsonView({View.Base.class, View.ExcludeAccountfromPost.class})
     private LocalDateTime createdAt;
 
     @JsonView(View.Base.class)

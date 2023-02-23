@@ -25,6 +25,7 @@ public class PostController {
     private JwtService jwtService;
 
     @GetMapping(value = "{id}")
+    @JsonView(View.Base.class)
     public ResponseEntity<PostDTO> getPost(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(postService.getById(id));
     }
