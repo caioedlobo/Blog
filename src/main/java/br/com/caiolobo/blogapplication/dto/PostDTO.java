@@ -1,6 +1,8 @@
 package br.com.caiolobo.blogapplication.dto;
 
 import br.com.caiolobo.blogapplication.models.Account;
+import br.com.caiolobo.blogapplication.models.View;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,14 +13,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDTO {
-
+    @JsonView(View.Base.class)
     private Long id;
 
+    @JsonView(View.Base.class)
     private String title;
 
+    @JsonView(View.Base.class)
     private String body;
 
+    @JsonView(View.Base.class)
     private LocalDateTime createdAt;
 
+    @JsonView(View.Base.class)
     private AccountDTO account;
 }

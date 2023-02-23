@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
 import jakarta.persistence.*;

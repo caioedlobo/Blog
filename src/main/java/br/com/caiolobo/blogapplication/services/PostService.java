@@ -31,7 +31,7 @@ public class PostService {
         this.accountRepository = accountRepository;
     }
 
-    public Post save(PostDTO postDto, String emailAccount){
+    public PostDTO save(PostDTO postDto, String emailAccount){
         Account account = accountRepository.findByEmail(emailAccount);
         if(account == null){
             throw new UserNotFoundException();
@@ -41,7 +41,9 @@ public class PostService {
             postDto.setAccount(convertAccountToDto(account));
         }
 
-        return postRepository.save(convertDtoToPost(postDto));
+        Post post = postRepository.save(convertDtoToPost(postDto));
+        postDto.setId(post.getId());
+        return postDto;
     }
 
     public PostDTO getById(Long id){
@@ -63,8 +65,13 @@ public class PostService {
     }
 
 
+
+
+
+
     private PostDTO convertPostToDto(Post post){
         PostDTO postDto = new PostDTO();
+        postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());
         postDto.setId(post.getId());
         postDto.setCreatedAt(post.getCreatedAt());
