@@ -24,7 +24,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**")
+                .requestMatchers("/auth/**", "/accounts/message/**")
 
                 .permitAll()
                 .anyRequest()   //permite o que tem no requestMatchers, e o que não for tem que ser autenticado
