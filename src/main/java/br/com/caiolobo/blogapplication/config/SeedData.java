@@ -3,10 +3,8 @@ package br.com.caiolobo.blogapplication.config;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.models.Authority;
 import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.models.Role;
-import br.com.caiolobo.blogapplication.repositories.AuthorityRepository;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,8 @@ public class SeedData implements CommandLineRunner {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    //@Autowired
+    //private AuthorityRepository authorityRepository;
 
     @Autowired
     private AccountService accountService;
@@ -52,9 +50,9 @@ public class SeedData implements CommandLineRunner {
             account1.setLastName("da Silva");
             account1.setRole(Role.USER);
 
-            Set<Authority> authorities1 = new HashSet<>();
-            authorityRepository.findById("ROLE_USER").ifPresent(authorities1::add);
-            account1.setAuthorities(authorities1);
+            //Set<Authority> authorities1 = new HashSet<>();
+            //authorityRepository.findById("ROLE_USER").ifPresent(authorities1::add);
+            //account1.setAuthorities(authorities1);
 
 
             Account account2 = new Account();
@@ -64,10 +62,10 @@ public class SeedData implements CommandLineRunner {
             account2.setLastName("da Silva 2");
             account2.setRole(Role.USER);
 
-            Set<Authority> authorities2 = new HashSet<>();
-            authorityRepository.findById("ROLE_USER").ifPresent(authorities2::add);
-            authorityRepository.findById("ROLE_ADMIN").ifPresent(authorities2::add);
-            account1.setAuthorities(authorities2);
+            //Set<Authority> authorities2 = new HashSet<>();
+            //authorityRepository.findById("ROLE_USER").ifPresent(authorities2::add);
+            //authorityRepository.findById("ROLE_ADMIN").ifPresent(authorities2::add);
+            //account1.setAuthorities(authorities2);
 
 
             accountService.save(account1);

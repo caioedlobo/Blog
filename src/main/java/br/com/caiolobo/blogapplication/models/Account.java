@@ -45,10 +45,10 @@ public class Account implements UserDetails {
     @ToString.Exclude
     private List<Post> posts;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "account_authority", joinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
-    private Set<Authority> authorities = new HashSet<>();
+    //@ManyToMany(fetch = FetchType.EAGER)
+    //@JoinTable(name = "account_authority", joinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id")},
+    //inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    //private Set<Authority> authorities = new HashSet<>();
 
 
 

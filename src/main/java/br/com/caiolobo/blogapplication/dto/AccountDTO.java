@@ -1,7 +1,5 @@
 package br.com.caiolobo.blogapplication.dto;
 
-import br.com.caiolobo.blogapplication.models.Authority;
-import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.models.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
