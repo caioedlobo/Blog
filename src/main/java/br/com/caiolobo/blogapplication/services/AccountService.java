@@ -18,6 +18,9 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     @Autowired
+    private PostService postService;
+
+    @Autowired
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -40,7 +43,13 @@ public class AccountService {
         accountDTO.setAuthorities(addAccountAuthoritiesToDto(account));
         accountDTO.setFirstName(account.getFirstName());
         accountDTO.setLastName(account.getLastName());
-        accountDTO.setPosts(convertPostsToDto(account.getPosts()));
+        if(account.getPosts().isEmpty()){
+
+            accountDTO.setPosts(Collections.emptyList());
+        }
+        else {
+            accountDTO.setPosts(postService.convertPostsToDto(account.getPosts()));
+        }
         return accountDTO;
     }
 
@@ -55,7 +64,6 @@ public class AccountService {
                 .build();
     }
 
-
     private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();
         account.getAuthorities().stream()
@@ -64,20 +72,4 @@ public class AccountService {
         return authorities;
     }
 
-    private List<PostDTO> convertPostsToDto(List<Post> posts) {
-        List<PostDTO> postsDtos = new ArrayList<>();
-        posts.stream()
-                .map(post -> postsDtos.add(convertSinglePost(post)))
-                .collect(Collectors.toList());
-        return postsDtos;
-    }
-    private PostDTO convertSinglePost(Post post){
-        PostDTO postDto = new PostDTO();
-        postDto.setTitle(post.getTitle());
-        postDto.setId(post.getId());
-        postDto.setCreatedAt(post.getCreatedAt());
-        postDto.setBody(post.getBody());
-        postDto.setAccount(convertAccountToDto(post.getAccount()));
-        return postDto;
-    }
 }

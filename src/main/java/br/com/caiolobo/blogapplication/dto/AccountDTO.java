@@ -3,6 +3,7 @@ package br.com.caiolobo.blogapplication.dto;
 import br.com.caiolobo.blogapplication.models.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;

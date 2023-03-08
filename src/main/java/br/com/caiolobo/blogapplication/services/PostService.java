@@ -12,15 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class PostService {
-
     private PostRepository postRepository;
     private final AccountRepository accountRepository;
 
@@ -37,11 +33,11 @@ public class PostService {
         if(account == null){
             throw new UserNotFoundException();
         }
-        else if(postDto.getId() == null){
+        if(postDto.getId() == null){
             postDto.setCreatedAt(LocalDateTime.now());
             postDto.setAccount(convertAccountToDto(account));
         }
-
+        System.out.println("parei aqui");
         Post post = postRepository.save(convertDtoToPost(postDto));
         postDto.setId(post.getId());
         return postDto;
@@ -70,7 +66,10 @@ public class PostService {
 
 
 
-    private PostDTO convertPostToDto(Post post){
+    public PostDTO convertPostToDto(Post post){
+        if(post == null){
+            return null;
+        }
         PostDTO postDto = new PostDTO();
         postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());
@@ -79,6 +78,26 @@ public class PostService {
         postDto.setBody(post.getBody());
         postDto.setAccount(convertAccountToDto(post.getAccount()));
         return postDto;
+    }
+    public List<PostDTO> convertPostsToDto(List<Post> posts) {
+
+        return posts.stream()
+                .map(this::convertPostToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    /*private PostDTO convertSinglePost(Post post){
+        PostDTO postDto = new PostDTO();
+        postDto.setTitle(post.getTitle());
+        postDto.setId(post.getId());
+        postDto.setCreatedAt(post.getCreatedAt());
+        postDto.setBody(post.getBody());
+        postDto.setAccount(convertAccountToDto(post.getAccount()));
+        return postDto;
+    }*/
+    public String testeRetorno(){
+        return "testeeee";
     }
 
 
@@ -92,8 +111,8 @@ public class PostService {
                 .build();
     }
 
-    private Account convertDtoToAccount(AccountDTO accountDto){
-        return accountRepository.findByEmail(accountDto.getEmail());
+    public Account convertDtoToAccount(AccountDTO accountDto){
+        return accountRepository.findById(accountDto.getId()).orElseThrow(UserNotFoundException::new);
     }
 
     private Set<String> addAccountAuthoritiesToDto(Account account){

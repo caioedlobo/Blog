@@ -16,15 +16,11 @@ class AccountRepositoryTest {
     @Autowired
     private AccountRepository underTest;
 
-    @Autowired
-    private AccountService accountService;
 
     @AfterEach
     void tearDown(){
         underTest.deleteAll();
     }
-
-
 
     @Test
     void itShouldFindAccountByEmail() {
