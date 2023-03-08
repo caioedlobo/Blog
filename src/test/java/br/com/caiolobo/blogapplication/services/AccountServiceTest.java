@@ -5,10 +5,8 @@ import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -116,7 +114,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void findById() {
+    void canFindById() {
         //given
         Account account = new Account();
         account.setId(1L);

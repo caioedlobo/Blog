@@ -20,6 +20,9 @@ public class PostService {
     private PostRepository postRepository;
     private final AccountRepository accountRepository;
 
+    @Autowired
+    private AccountService accountService;
+
 
     @Autowired
     public PostService(PostRepository postRepository,
@@ -35,7 +38,7 @@ public class PostService {
         }
         if(postDto.getId() == null){
             postDto.setCreatedAt(LocalDateTime.now());
-            postDto.setAccount(convertAccountToDto(account));
+            postDto.setAccount(accountService.convertAccountToDto(account));
         }
         System.out.println("parei aqui");
         Post post = postRepository.save(convertDtoToPost(postDto));
@@ -57,7 +60,7 @@ public class PostService {
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .createdAt(postDto.getCreatedAt())
-                .account(convertDtoToAccount(postDto.getAccount()))
+                .account(accountService.convertDtoToAccount(postDto.getAccount()))
                 .build();
     }
 
@@ -76,7 +79,7 @@ public class PostService {
         postDto.setId(post.getId());
         postDto.setCreatedAt(post.getCreatedAt());
         postDto.setBody(post.getBody());
-        postDto.setAccount(convertAccountToDto(post.getAccount()));
+        postDto.setAccount(accountService.convertAccountToDto(post.getAccount()));
         return postDto;
     }
     public List<PostDTO> convertPostsToDto(List<Post> posts) {
@@ -96,24 +99,8 @@ public class PostService {
         postDto.setAccount(convertAccountToDto(post.getAccount()));
         return postDto;
     }*/
-    public String testeRetorno(){
-        return "testeeee";
-    }
 
 
-    private AccountDTO convertAccountToDto(Account account){
-        return AccountDTO.builder()
-                .id(account.getId())
-                .email(account.getUsername())
-                .firstName(account.getFirstName())
-                .lastName(account.getLastName())
-                .authorities(addAccountAuthoritiesToDto(account))
-                .build();
-    }
-
-    public Account convertDtoToAccount(AccountDTO accountDto){
-        return accountRepository.findById(accountDto.getId()).orElseThrow(UserNotFoundException::new);
-    }
 
     private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();

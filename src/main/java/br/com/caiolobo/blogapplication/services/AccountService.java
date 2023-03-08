@@ -53,7 +53,13 @@ public class AccountService {
         return accountDTO;
     }
 
-    private AccountDTO convertAccountToDto(Account account){
+
+
+    public Account convertDtoToAccount(AccountDTO accountDto){
+        return accountRepository.findById(accountDto.getId()).orElseThrow(UserNotFoundException::new);
+    }
+
+    public AccountDTO convertAccountToDto(Account account){
         return AccountDTO.builder()
                 .id(account.getId())
                 .email(account.getUsername())
