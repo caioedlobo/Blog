@@ -17,7 +17,7 @@ public class AccountService {
 
     private AccountRepository accountRepository;
 
-    @Autowired
+
     private PostService postService;
 
     @Autowired
@@ -49,6 +49,7 @@ public class AccountService {
         }
         else {
             accountDTO.setPosts(postService.convertPostsToDto(account.getPosts()));
+
         }
         return accountDTO;
     }

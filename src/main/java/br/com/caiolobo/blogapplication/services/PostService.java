@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PostService {
+
     private PostRepository postRepository;
 
     private final AccountRepository accountRepository;
@@ -48,7 +49,7 @@ public class PostService {
     }
 
     public PostDTO getById(Long id){
-        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException());
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
         return convertPostToDto(post);
     }
 
@@ -66,15 +67,9 @@ public class PostService {
     }
 
 
-
-
-
-
     public PostDTO convertPostToDto(Post post){
         System.out.println(post.getAccount());
-        if(post == null){
-            return null;
-        }
+        System.out.println("aquiii");
         PostDTO postDto = new PostDTO();
         postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());
