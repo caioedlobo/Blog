@@ -34,3 +34,4 @@ build/
 
 ### ENV VARIABLES ###
 /src/main/resources/env.properties
+/src/main/resources/messages.properties
