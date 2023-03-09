@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 class AccountServiceTest {
     @Mock
     private AccountRepository accountRepository;
+
     private AccountService underTest;
 
     @InjectMocks
@@ -123,14 +124,13 @@ class AccountServiceTest {
         account.setFirstName("Fulano");
         account.setLastName("da Silva");
         account.setRole(Role.USER);
-        account.setPosts(Collections.emptyList());
 
         //mock
         when(accountRepository.findById(account.getId())).thenReturn(Optional.of(account));
 
         //when
         AccountDTO savedAccountDTO = underTest.findById(account.getId());
-        Account savedAccount = postService.convertDtoToAccount(savedAccountDTO);
+        Account savedAccount = underTest.convertDtoToAccount(savedAccountDTO);
 
         //then
         verify(accountRepository, times(2)).findById(account.getId());

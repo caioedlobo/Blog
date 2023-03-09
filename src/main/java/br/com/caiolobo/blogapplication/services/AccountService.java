@@ -36,7 +36,7 @@ public class AccountService {
     }
 
     public AccountDTO findById(Long id){
-        Account account = accountRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+        Account account = accountRepository.findById(id).orElseThrow(UserNotFoundException::new);
         AccountDTO accountDTO = new AccountDTO();
         accountDTO.setId(account.getId());
         accountDTO.setEmail(account.getEmail());
@@ -76,6 +76,10 @@ public class AccountService {
                 .map(authority -> authorities.add(String.valueOf(authority)))
                 .collect(Collectors.toSet());
         return authorities;
+    }
+
+    public String hello(){
+        return "Oláaaa";
     }
 
 }

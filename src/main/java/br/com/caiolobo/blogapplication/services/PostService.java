@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private PostRepository postRepository;
+
     private final AccountRepository accountRepository;
 
     @Autowired
@@ -25,10 +26,10 @@ public class PostService {
 
 
     @Autowired
-    public PostService(PostRepository postRepository,
-                       AccountRepository accountRepository) {
+    public PostService(PostRepository postRepository, AccountRepository accountRepository) {
         this.postRepository = postRepository;
         this.accountRepository = accountRepository;
+
     }
 
     public PostDTO save(PostDTO postDto, String emailAccount){
@@ -40,7 +41,7 @@ public class PostService {
             postDto.setCreatedAt(LocalDateTime.now());
             postDto.setAccount(accountService.convertAccountToDto(account));
         }
-        System.out.println("parei aqui");
+
         Post post = postRepository.save(convertDtoToPost(postDto));
         postDto.setId(post.getId());
         return postDto;
@@ -70,6 +71,7 @@ public class PostService {
 
 
     public PostDTO convertPostToDto(Post post){
+        System.out.println(post.getAccount());
         if(post == null){
             return null;
         }
