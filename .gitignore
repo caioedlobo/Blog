@@ -33,5 +33,6 @@ build/
 .vscode/
 
 ### ENV VARIABLES ###
+/src/main/resources/application.properties
 /src/main/resources/env.properties
 /src/main/resources/messages.properties
