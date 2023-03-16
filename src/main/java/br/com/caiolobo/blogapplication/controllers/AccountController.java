@@ -1,18 +1,17 @@
 package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
-import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.models.View;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.EmailService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/accounts")
+@RequestMapping(value = "/api/accounts")
 public class AccountController {
 
     @Autowired
