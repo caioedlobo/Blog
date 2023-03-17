@@ -9,21 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
 
 import org.springframework.core.env.Environment;
+
 @Service
 public class JwtService{
 
     @Autowired
-    static Environment env;
-
-
-    //private static final String SECRET_KEY = env.getProperty("secret.key", "null");
-    private static final String SECRET_KEY= "67566B59703373367639792442264528482B4D6251655468576D5A7134743777";
+    private Environment env;
 
 
     public String extractUsername(String jwtToken) {
@@ -74,6 +70,7 @@ public class JwtService{
     }
 
     private Key getSignInKey() {
+        String SECRET_KEY = env.getProperty("secret.key");
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }

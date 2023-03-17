@@ -27,10 +27,10 @@ public class AccountController {
     }
 
     @PostMapping(value = "/message")
-    public String sendEmailMessage(){
+    public String sendEmailMessage(@RequestBody String email){
         emailService.sendMessage(
-                "caioeduardolobo@gmail.com",
-                "Teste",
+                email,
+                "Recuperação de conta",
                 "Texto de teste");
         return "Mensagem enviada";
     }
