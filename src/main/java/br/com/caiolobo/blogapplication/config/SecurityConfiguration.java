@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -19,13 +21,33 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/api-docs/**",
+            "/api/public/**",
+            "/api/public/authenticate",
+            "/actuator/*",
+            "/swagger-ui/**",
+            "/api/auth/**",
+            "/api/accounts/message/**"
+
+    };
+
+
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**", "/api/accounts/message/**")
-
+                .requestMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .anyRequest()   //permite o que tem no requestMatchers, e o que não for tem que ser autenticado
                 .authenticated()
@@ -33,8 +55,8 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);      //executa esse filtro antes do UsernamePasswordAuthenticationFilter;
+                .authenticationProvider(authenticationProvider);
+                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);      //executa esse filtro antes do UsernamePasswordAuthenticationFilter;
 
         return http.build();
     }
