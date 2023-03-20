@@ -2,16 +2,19 @@ package br.com.caiolobo.blogapplication.config;
 
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +30,7 @@ public class SecurityConfiguration {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
+            "/swagger-ui",
             "/webjars/**",
             "/v3/api-docs/**",
             "/api-docs/**",
@@ -35,11 +39,13 @@ public class SecurityConfiguration {
             "/actuator/*",
             "/swagger-ui/**",
             "/api/auth/**",
-            "/api/accounts/message/**"
-
+            "/api/accounts/message/**",
+            "swagger-ui/index.html"
     };
-
-
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web -> web.ignoring().requestMatchers(AUTH_WHITELIST));
+    }
 
 
     @Bean
@@ -55,8 +61,8 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider);
-                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);      //executa esse filtro antes do UsernamePasswordAuthenticationFilter;
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);      //executa esse filtro antes do UsernamePasswordAuthenticationFilter;
 
         return http.build();
     }
