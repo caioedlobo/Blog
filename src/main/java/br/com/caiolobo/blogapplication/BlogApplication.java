@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 
 @SpringBootApplication
-@OpenAPIDefinition(info= @Info(title = "API do Blog usando Spring Boot"))
+//@OpenAPIDefinition(info= @Info(title = "API do Blog usando Spring Boot"))
 public class BlogApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
