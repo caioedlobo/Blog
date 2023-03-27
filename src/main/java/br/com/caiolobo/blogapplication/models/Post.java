@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.models;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -25,7 +26,6 @@ public class Post {
     private String body;
 
     private LocalDateTime createdAt;
-
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private Account account;

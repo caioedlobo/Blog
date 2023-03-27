@@ -1,10 +1,9 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
-import br.com.caiolobo.blogapplication.dto.PostDTO;
+import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.models.Post;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +53,14 @@ public class AccountService {
         return accountDTO;
     }
 
+    public void updateName(String email, AccountUpdateDTO accountUpdateDTO){
+        Account account = accountRepository.findByEmail(email);
+        account.setFirstName(accountUpdateDTO.getFirstName());
+        account.setLastName(accountUpdateDTO.getLastName());
+        accountRepository.save(account);
+
+    }
+
 
 
     public Account convertDtoToAccount(AccountDTO accountDto){
@@ -79,8 +86,5 @@ public class AccountService {
         return authorities;
     }
 
-    public String hello(){
-        return "Oláaaa";
-    }
 
 }

@@ -34,10 +34,7 @@ public class PostController {
     @PostMapping
     @JsonView(View.Base.class)
     public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
-        String token = request.getHeader("Authorization").substring(7); // remove o prefixo "Bearer "
-        String emailAccount = jwtService.extractUsername(token);
-
-       return ResponseEntity.ok(postService.save(postDto, emailAccount));
+       return ResponseEntity.ok(postService.save(postDto, jwtService.getEmailFromRequest(request)));
     }
 
 }

@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -73,5 +74,10 @@ public class JwtService{
         String SECRET_KEY = env.getProperty("secret.key");
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String getEmailFromRequest(HttpServletRequest request){
+        String token = request.getHeader("Authorization").substring(7); // remove o prefixo "Bearer "
+        return extractUsername(token);  // retorna o email
     }
 }

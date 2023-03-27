@@ -67,8 +67,6 @@ public class PostService {
 
 
     public PostDTO convertPostToDto(Post post){
-        System.out.println(post.getAccount());
-        System.out.println("aquiii");
         PostDTO postDto = new PostDTO();
         postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());

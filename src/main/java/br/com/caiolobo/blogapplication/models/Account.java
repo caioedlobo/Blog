@@ -38,6 +38,7 @@ public class Account implements UserDetails {
     @NotEmpty(message = "Campo último nome é obrigatório")
     private String lastName;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "account")
     @ToString.Exclude
@@ -47,8 +48,6 @@ public class Account implements UserDetails {
     //@JoinTable(name = "account_authority", joinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id")},
     //inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     //private Set<Authority> authorities = new HashSet<>();
-
-
 
 
     //Métodos para implementar do UserDetails
