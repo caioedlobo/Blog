@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.controllers;
 
+import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.config.JwtService;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
@@ -38,9 +39,16 @@ public class AccountController {
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<AccountUpdateDTO> updateAccountName(@RequestBody AccountUpdateDTO accountUpdateDTO, HttpServletRequest request){
+    public ResponseEntity<AccountUpdateDTO> updateAccountName(HttpServletRequest request, @RequestBody AccountUpdateDTO accountUpdateDTO){
         accountService.updateName(jwtService.getEmailFromRequest(request), accountUpdateDTO);
         return ResponseEntity.ok().body(accountUpdateDTO);
+    }
+
+    @PutMapping(value = "/update-password")
+    public ResponseEntity<AuthenticationRequest> updateAccountPassword(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
+        authenticationRequest.setEmail(jwtService.getEmailFromRequest(request));
+        accountService.updatePassword(authenticationRequest);
+        return ResponseEntity.noContent().build();
     }
 
 

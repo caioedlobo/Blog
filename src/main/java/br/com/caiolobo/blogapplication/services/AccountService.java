@@ -1,11 +1,13 @@
 package br.com.caiolobo.blogapplication.services;
 
+import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,13 +17,14 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private AccountRepository accountRepository;
-
-
     private PostService postService;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Account save(Account account){return accountRepository.save(account);
@@ -87,4 +90,10 @@ public class AccountService {
     }
 
 
+    public void updatePassword(AuthenticationRequest authenticationRequest) {
+        Account account = accountRepository.findByEmail(authenticationRequest.getEmail());
+        account.setPassword(passwordEncoder.encode(authenticationRequest.getPassword()));
+        accountRepository.save(account);
+
+    }
 }
