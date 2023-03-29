@@ -6,7 +6,6 @@ import br.com.caiolobo.blogapplication.models.View;
 import br.com.caiolobo.blogapplication.services.PostService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -37,6 +36,7 @@ public class PostController {
     @JsonView(View.Base.class)
     public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
        return ResponseEntity.ok(postService.save(postDto, jwtService.getEmailFromRequest(request)));
+        //TODO Colocar codigo 201
     }
 
     @GetMapping(value = "/all-posts/{id}")

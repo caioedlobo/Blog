@@ -1,8 +1,9 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.PostDTO;
-import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.models.Post;
+import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.models.entities.Account;
+import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
@@ -12,12 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -30,6 +27,7 @@ class PostServiceTest {
     @InjectMocks
     private PostService underTest;
 
+    private AccountMapper accountMapper;
     @InjectMocks
     private AccountService accountService;
     @Mock
@@ -45,7 +43,7 @@ class PostServiceTest {
 
     @BeforeEach
     void setUp(){
-        underTest = new PostService(postRepository, accountRepository);
+        underTest = new PostService(postRepository, accountRepository, accountService, accountMapper);
         accountService = new AccountService(accountRepository, passwordEncoder);
     }
 

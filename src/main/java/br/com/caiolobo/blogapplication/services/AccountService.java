@@ -4,7 +4,7 @@ import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
-import br.com.caiolobo.blogapplication.models.Account;
+import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private AccountRepository accountRepository;
-    private PostService postService;
 
+    private PostService postService;
     private PasswordEncoder passwordEncoder;
 
 
     public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,9 +38,9 @@ public class AccountService {
         return Optional.ofNullable(accountRepository.findByEmail(email));
     }
 
-    public AccountDTO findById(Long id){
+    public Account findById(Long id){
         Account account = accountRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        AccountDTO accountDTO = new AccountDTO();
+        /*AccountDTO accountDTO = new AccountDTO();
         accountDTO.setId(account.getId());
         accountDTO.setEmail(account.getEmail());
         accountDTO.setAuthorities(addAccountAuthoritiesToDto(account));
@@ -52,8 +53,8 @@ public class AccountService {
         else {
             accountDTO.setPosts(postService.convertPostsToDto(account.getPosts()));
 
-        }
-        return accountDTO;
+        }*/
+        return account;
     }
 
     public void updateName(String email, AccountUpdateDTO accountUpdateDTO){
@@ -66,7 +67,7 @@ public class AccountService {
 
 
 
-    public Account convertDtoToAccount(AccountDTO accountDto){
+    /*public Account convertDtoToAccount(AccountDTO accountDto){
         return accountRepository.findById(accountDto.getId()).orElseThrow(UserNotFoundException::new);
     }
 
@@ -79,7 +80,7 @@ public class AccountService {
                 //.posts(convertPostToDto(account.getPosts()))
                 .authorities(addAccountAuthoritiesToDto(account))
                 .build();
-    }
+    }*/
 
     private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();
@@ -95,5 +96,11 @@ public class AccountService {
         account.setPassword(passwordEncoder.encode(authenticationRequest.getPassword()));
         accountRepository.save(account);
 
+    }
+
+    public void delete(String emailFromRequest) {
+        Account account = accountRepository.findByEmail(emailFromRequest);
+        //List<Post> posts = postService.findByEmail(emailFromRequest);
+        accountRepository.delete(account);
     }
 }

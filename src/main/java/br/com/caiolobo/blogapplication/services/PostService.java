@@ -1,11 +1,11 @@
 package br.com.caiolobo.blogapplication.services;
 
-import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
-import br.com.caiolobo.blogapplication.models.Account;
-import br.com.caiolobo.blogapplication.models.Post;
+import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.models.entities.Account;
+import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,15 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private PostRepository postRepository;
-
     private final AccountRepository accountRepository;
-
-    @Autowired
-    private AccountService accountService;
+    private AccountMapper accountMapper;
 
 
     @Autowired
-    public PostService(PostRepository postRepository, AccountRepository accountRepository) {
+    public PostService(PostRepository postRepository, AccountRepository accountRepository, AccountMapper accountMapper) {
         this.postRepository = postRepository;
         this.accountRepository = accountRepository;
+        this.accountMapper = accountMapper;
 
     }
 
@@ -39,10 +37,12 @@ public class PostService {
         }
         if(postDto.getId() == null){
             postDto.setCreatedAt(LocalDateTime.now());
-            postDto.setAccount(accountService.convertAccountToDto(account));
+            //postDto.setAccount(accountService.convertAccountToDto(account));
+            postDto.setAccount(accountMapper.toDTO(account));
         }
 
         Post post = postRepository.save(convertDtoToPost(postDto));
+
         postDto.setId(post.getId());
         return postDto;
     }
@@ -56,12 +56,17 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<PostDTO> getAllById(Long id){
+        return convertPostsToDto(postRepository.findByAccountId(id));
+    }
+
     private Post convertDtoToPost(PostDTO postDto){
         return Post.builder()
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .createdAt(postDto.getCreatedAt())
-                .account(accountService.convertDtoToAccount(postDto.getAccount()))
+                //.account(accountService.convertDtoToAccount(postDto.getAccount()))
+                .account(accountMapper.toEntity(postDto.getAccount()))
                 .build();
     }
 
@@ -73,7 +78,8 @@ public class PostService {
         postDto.setId(post.getId());
         postDto.setCreatedAt(post.getCreatedAt());
         postDto.setBody(post.getBody());
-        postDto.setAccount(accountService.convertAccountToDto(post.getAccount()));
+        //postDto.setAccount(accountService.convertAccountToDto(post.getAccount()));
+        postDto.setAccount(accountMapper.toDTO(post.getAccount()));
         return postDto;
     }
     public List<PostDTO> convertPostsToDto(List<Post> posts) {

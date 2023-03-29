@@ -1,6 +1,5 @@
 package br.com.caiolobo.blogapplication.dto;
 
-import br.com.caiolobo.blogapplication.models.Account;
 import br.com.caiolobo.blogapplication.models.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,4 +29,6 @@ public class PostDTO {
 
     @JsonView(View.Base.class)
     private AccountDTO account;
+
+
 }

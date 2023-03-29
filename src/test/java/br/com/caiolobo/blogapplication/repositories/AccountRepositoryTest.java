@@ -1,8 +1,7 @@
 package br.com.caiolobo.blogapplication.repositories;
 
-import br.com.caiolobo.blogapplication.models.Account;
+import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.Role;
-import br.com.caiolobo.blogapplication.services.AccountService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

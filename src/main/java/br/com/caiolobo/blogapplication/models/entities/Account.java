@@ -1,8 +1,7 @@
-package br.com.caiolobo.blogapplication.models;
+package br.com.caiolobo.blogapplication.models.entities;
 
+import br.com.caiolobo.blogapplication.models.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import jakarta.annotation.Nullable;
 import lombok.*;
 
 import jakarta.persistence.*;

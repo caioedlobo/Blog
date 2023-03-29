@@ -1,8 +1,7 @@
-package br.com.caiolobo.blogapplication.models;
+package br.com.caiolobo.blogapplication.models.entities;
 
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import br.com.caiolobo.blogapplication.models.entities.Account;
 import lombok.*;
 
 import jakarta.persistence.*;

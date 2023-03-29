@@ -5,6 +5,7 @@ import br.com.caiolobo.blogapplication.config.JwtService;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.models.View;
+import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.EmailService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -34,7 +35,7 @@ public class AccountController {
     @Operation(summary = "Get Account by ID")
     @GetMapping(value = "/{id}")
     @JsonView(View.ExcludeAccountFromPost.class)
-    public ResponseEntity<AccountDTO> getAccount(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Account> getAccount(@PathVariable("id") Long id){
         return ResponseEntity.ok(accountService.findById(id));
     }
 
@@ -48,6 +49,12 @@ public class AccountController {
     public ResponseEntity<AuthenticationRequest> updateAccountPassword(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
         authenticationRequest.setEmail(jwtService.getEmailFromRequest(request));
         accountService.updatePassword(authenticationRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteAccount(HttpServletRequest request){
+        accountService.delete(jwtService.getEmailFromRequest(request));
         return ResponseEntity.noContent().build();
     }
 
