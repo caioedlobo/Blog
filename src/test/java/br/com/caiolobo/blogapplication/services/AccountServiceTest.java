@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,8 @@ import static org.mockito.Mockito.*;
 class AccountServiceTest {
     @Mock
     private AccountRepository accountRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     private AccountService underTest;
 
@@ -34,7 +37,7 @@ class AccountServiceTest {
 
     @BeforeEach
     void setUp(){
-        underTest = new AccountService(accountRepository);
+        underTest = new AccountService(accountRepository, passwordEncoder);
     }
 
     @Test
