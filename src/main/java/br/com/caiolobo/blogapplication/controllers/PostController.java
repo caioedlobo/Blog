@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Post", description = "This endpoint allows for the creation, reading, updating, and deletion of posts.")
 @RestController
 @RequestMapping(value = "/api/posts")
@@ -35,6 +37,12 @@ public class PostController {
     @JsonView(View.Base.class)
     public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
        return ResponseEntity.ok(postService.save(postDto, jwtService.getEmailFromRequest(request)));
+    }
+
+    @GetMapping(value = "/all-posts/{id}")
+    @JsonView(View.Base.class)
+    public ResponseEntity<List<PostDTO>> getAllPostsById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(postService.getAllById(id));
     }
 
 }
