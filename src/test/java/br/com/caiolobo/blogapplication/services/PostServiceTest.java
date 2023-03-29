@@ -93,7 +93,6 @@ class PostServiceTest {
         account.setFirstName("Fulano");
         account.setLastName("da Silva");
         account.setRole(Role.USER);
-        System.out.println(accountService.hello());
         Post post = new Post();
         post.setId(1L);
         post.setTitle("Título");

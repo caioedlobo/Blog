@@ -21,10 +21,14 @@ public class AccountService {
 
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+
     public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+
     }
 
     public Account save(Account account){return accountRepository.save(account);
