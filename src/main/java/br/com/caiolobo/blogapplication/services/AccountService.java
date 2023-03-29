@@ -26,10 +26,6 @@ public class AccountService {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
     }
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-
-    }
 
     public Account save(Account account){return accountRepository.save(account);
     }

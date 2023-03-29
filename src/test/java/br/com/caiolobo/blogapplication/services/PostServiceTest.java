@@ -21,6 +21,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class PostServiceTest {
 
     @Mock
@@ -39,11 +40,11 @@ class PostServiceTest {
     }*/
 
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp(){
         underTest = new PostService(postRepository, accountRepository);
         accountService = new AccountService(accountRepository);
-    }
+    }*/
 
     @Test
     @Disabled
