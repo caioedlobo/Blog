@@ -27,10 +27,10 @@ public class PostController {
     private JwtService jwtService;
 
     @Operation(summary = "Get Post by ID")
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     @JsonView(View.Base.class)
-    public ResponseEntity<Post> getPost(@PathVariable(value = "id") Long id){
-        return ResponseEntity.ok(postService.findById(id));
+    public ResponseEntity<PostDTO> getPost(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(postService.findById(id));
     }
 
     @PostMapping

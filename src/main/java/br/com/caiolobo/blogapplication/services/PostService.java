@@ -50,10 +50,8 @@ public class PostService {
         return postDto;
     }
 
-    public Post findById(Long id){
-        //Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
-        //return post;
-        return postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+    public PostDTO findById(Long id){
+        return postMapper.toDto(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
     }
 
     public List<Post> getAll(){
