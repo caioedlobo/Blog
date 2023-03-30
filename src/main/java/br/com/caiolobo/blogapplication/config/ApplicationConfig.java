@@ -1,6 +1,10 @@
 package br.com.caiolobo.blogapplication.config;
 
+import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.mappers.PostAccountMapper;
+import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
+import br.com.caiolobo.blogapplication.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

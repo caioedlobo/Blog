@@ -4,6 +4,7 @@ import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
@@ -20,14 +21,15 @@ public class PostService {
     private PostRepository postRepository;
     private final AccountRepository accountRepository;
     private AccountMapper accountMapper;
+    private PostMapper postMapper;
 
 
     @Autowired
-    public PostService(PostRepository postRepository, AccountRepository accountRepository, AccountMapper accountMapper) {
+    public PostService(PostRepository postRepository, AccountRepository accountRepository, AccountMapper accountMapper, PostMapper postMapper) {
         this.postRepository = postRepository;
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
-
+        this.postMapper = postMapper;
     }
 
     public PostDTO save(PostDTO postDto, String emailAccount){
@@ -37,19 +39,21 @@ public class PostService {
         }
         if(postDto.getId() == null){
             postDto.setCreatedAt(LocalDateTime.now());
-            //postDto.setAccount(accountService.convertAccountToDto(account));
-            postDto.setAccount(accountMapper.toDTO(account));
+            //*postDto.setAccount(accountService.convertAccountToDto(account));
+            postDto.setAccount(accountMapper.toDto(account));
         }
 
-        Post post = postRepository.save(convertDtoToPost(postDto));
+        //Post post = postRepository.save(convertDtoToPost(postDto));
+        Post post = postRepository.save(postMapper.toPost(postDto, account));
 
         postDto.setId(post.getId());
         return postDto;
     }
 
-    public PostDTO getById(Long id){
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
-        return convertPostToDto(post);
+    public Post findById(Long id){
+        //Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        //return post;
+        return postRepository.findById(id).orElseThrow(PostNotFoundException::new);
     }
 
     public List<Post> getAll(){
@@ -57,19 +61,20 @@ public class PostService {
     }
 
     public List<PostDTO> getAllById(Long id){
-        return convertPostsToDto(postRepository.findByAccountId(id));
+        //*return convertPostsToDto(postRepository.findByAccountId(id));
+        return postMapper.postsToDto(postRepository.findByAccountId(id));
     }
 
+    /*
     private Post convertDtoToPost(PostDTO postDto){
         return Post.builder()
                 .title(postDto.getTitle())
                 .body(postDto.getBody())
                 .createdAt(postDto.getCreatedAt())
-                //.account(accountService.convertDtoToAccount(postDto.getAccount()))
-                .account(accountMapper.toEntity(postDto.getAccount()))
+                //*.account(accountService.convertDtoToAccount(postDto.getAccount()))
+                .account(accountMapper.toAccount(postDto.getAccount()))
                 .build();
     }
-
 
     public PostDTO convertPostToDto(Post post){
         PostDTO postDto = new PostDTO();
@@ -78,29 +83,10 @@ public class PostService {
         postDto.setId(post.getId());
         postDto.setCreatedAt(post.getCreatedAt());
         postDto.setBody(post.getBody());
-        //postDto.setAccount(accountService.convertAccountToDto(post.getAccount()));
-        postDto.setAccount(accountMapper.toDTO(post.getAccount()));
-        return postDto;
-    }
-    public List<PostDTO> convertPostsToDto(List<Post> posts) {
-
-        return posts.stream()
-                .map(this::convertPostToDto)
-                .collect(Collectors.toList());
-    }
-
-
-    /*private PostDTO convertSinglePost(Post post){
-        PostDTO postDto = new PostDTO();
-        postDto.setTitle(post.getTitle());
-        postDto.setId(post.getId());
-        postDto.setCreatedAt(post.getCreatedAt());
-        postDto.setBody(post.getBody());
-        postDto.setAccount(convertAccountToDto(post.getAccount()));
+        //*postDto.setAccount(accountService.convertAccountToDto(post.getAccount()));
+        postDto.setAccount(accountMapper.toDto(post.getAccount()));
         return postDto;
     }*/
-
-
 
     private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();

@@ -3,6 +3,7 @@ package br.com.caiolobo.blogapplication.controllers;
 import br.com.caiolobo.blogapplication.config.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.View;
+import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.services.PostService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,8 +29,8 @@ public class PostController {
     @Operation(summary = "Get Post by ID")
     @GetMapping(value = "{id}")
     @JsonView(View.Base.class)
-    public ResponseEntity<PostDTO> getPost(@PathVariable(value = "id") Long id){
-        return ResponseEntity.ok(postService.getById(id));
+    public ResponseEntity<Post> getPost(@PathVariable(value = "id") Long id){
+        return ResponseEntity.ok(postService.findById(id));
     }
 
     @PostMapping
