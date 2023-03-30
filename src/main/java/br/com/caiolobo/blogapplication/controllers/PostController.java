@@ -40,9 +40,9 @@ public class PostController {
         //TODO Colocar codigo 201
     }
 
-    @GetMapping(value = "/all-posts/{id}")
+    @GetMapping(value = "/account/{id}")
     @JsonView(View.Base.class)
-    public ResponseEntity<List<PostDTO>> getAllPostsById(@PathVariable("id") Long id){
+    public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("id") Long id){
         return ResponseEntity.ok(postService.getAllById(id));
     }
 

@@ -21,10 +21,10 @@ public class AccountService {
     private PasswordEncoder passwordEncoder;
 
 
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PostService postService) {
         this.accountRepository = accountRepository;
-
         this.passwordEncoder = passwordEncoder;
+        this.postService = postService;
     }
 
     public Account save(Account account){return accountRepository.save(account);
@@ -100,6 +100,7 @@ public class AccountService {
     public void delete(String emailFromRequest) {
         Account account = accountRepository.findByEmail(emailFromRequest);
         //List<Post> posts = postService.findByEmail(emailFromRequest);
+        postService.deleteAllPosts(account.getId());
         accountRepository.delete(account);
     }
 }

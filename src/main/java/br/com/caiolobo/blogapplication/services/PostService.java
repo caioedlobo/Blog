@@ -94,4 +94,11 @@ public class PostService {
                 .collect(Collectors.toSet());
         return authorities;
     }
+
+    public void deleteAllPosts(Long id) {
+        List<Post> posts = postRepository.findByAccountId(id);
+        for(Post post: posts){
+            postRepository.delete(post);
+        }
+    }
 }
