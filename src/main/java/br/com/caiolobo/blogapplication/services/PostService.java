@@ -38,7 +38,7 @@ public class PostService {
             throw new UserNotFoundException();
         }
         if(postDto.getId() == null){
-            postDto.setCreatedAt(LocalDateTime.now());
+            postDto.setCreatedAt(String.valueOf(LocalDateTime.now()));
             //*postDto.setAccount(accountService.convertAccountToDto(account));
             postDto.setAccount(accountMapper.toDto(account));
         }
@@ -47,6 +47,7 @@ public class PostService {
         Post post = postRepository.save(postMapper.toPost(postDto, account));
 
         postDto.setId(post.getId());
+
         return postDto;
     }
 

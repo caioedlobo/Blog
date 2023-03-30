@@ -8,6 +8,7 @@ import br.com.caiolobo.blogapplication.services.AccountService;
 import br.com.caiolobo.blogapplication.services.PostService;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class PostAccountMapper{
         dto.setId(post.getId());
         dto.setTitle(post.getTitle());
         dto.setBody(post.getBody());
+        dto.setCreatedAt(String.valueOf(post.getCreatedAt()));
         dto.setAccount(accountToDto(post.getAccount()));
         return dto;
     }
@@ -29,7 +31,7 @@ public class PostAccountMapper{
         Post post = new Post();
         post.setTitle(dto.getTitle());
         post.setBody(dto.getBody());
-        post.setCreatedAt(dto.getCreatedAt());
+        post.setCreatedAt(LocalDateTime.parse(dto.getCreatedAt()));
         //post.setAccount(dtoToAccount(dto.getAccount()));
         post.setAccount(account);
         return post;

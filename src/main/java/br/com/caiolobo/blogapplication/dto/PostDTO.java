@@ -25,7 +25,7 @@ public class PostDTO {
     private String body;
 
     @JsonView({View.Base.class, View.ExcludeAccountFromPost.class})
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     @JsonView(View.Base.class)
     private AccountDTO account;

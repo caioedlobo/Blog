@@ -29,7 +29,7 @@ public class PostController {
     @Operation(summary = "Get Post by ID")
     @GetMapping(value = "/{id}")
     @JsonView(View.Base.class)
-    public ResponseEntity<PostDTO> getPost(@PathVariable("id") Long id){
+    public ResponseEntity<PostDTO> getPostById(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(postService.findById(id));
     }
 
