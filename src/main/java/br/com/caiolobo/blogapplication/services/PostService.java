@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private PostRepository postRepository;
-    private final AccountRepository accountRepository;
     private AccountMapper accountMapper;
     private PostMapper postMapper;
 
@@ -27,18 +26,15 @@ public class PostService {
     private AccountService accountService;
 
     @Autowired
-    public PostService(PostRepository postRepository, AccountRepository accountRepository, AccountMapper accountMapper, PostMapper postMapper) {
+    public PostService(PostRepository postRepository, AccountMapper accountMapper, PostMapper postMapper) {
         this.postRepository = postRepository;
-        this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
         this.postMapper = postMapper;
     }
 
     public PostDTO save(PostDTO postDto, String emailAccount){
-        Account account = accountRepository.findByEmail(emailAccount);
-        if(account == null){
-            throw new UserNotFoundException();
-        }
+        //Account account = accountRepository.findByEmail(emailAccount);
+        Account account = accountService.findByEmail(emailAccount).orElseThrow(UserNotFoundException::new);
         if(postDto.getId() == null){
             postDto.setCreatedAt(String.valueOf(LocalDateTime.now()));
             //*postDto.setAccount(accountService.convertAccountToDto(account));
