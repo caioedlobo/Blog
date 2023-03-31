@@ -23,6 +23,8 @@ public class PostService {
     private AccountMapper accountMapper;
     private PostMapper postMapper;
 
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     public PostService(PostRepository postRepository, AccountRepository accountRepository, AccountMapper accountMapper, PostMapper postMapper) {
@@ -63,29 +65,6 @@ public class PostService {
         //*return convertPostsToDto(postRepository.findByAccountId(id));
         return postMapper.postsToDto(postRepository.findByAccountId(id));
     }
-
-    /*
-    private Post convertDtoToPost(PostDTO postDto){
-        return Post.builder()
-                .title(postDto.getTitle())
-                .body(postDto.getBody())
-                .createdAt(postDto.getCreatedAt())
-                //*.account(accountService.convertDtoToAccount(postDto.getAccount()))
-                .account(accountMapper.toAccount(postDto.getAccount()))
-                .build();
-    }
-
-    public PostDTO convertPostToDto(Post post){
-        PostDTO postDto = new PostDTO();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setId(post.getId());
-        postDto.setCreatedAt(post.getCreatedAt());
-        postDto.setBody(post.getBody());
-        //*postDto.setAccount(accountService.convertAccountToDto(post.getAccount()));
-        postDto.setAccount(accountMapper.toDto(post.getAccount()));
-        return postDto;
-    }*/
 
     private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();

@@ -1,7 +1,6 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
-import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -16,15 +15,14 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private AccountRepository accountRepository;
-
-    private PostService postService;
     private PasswordEncoder passwordEncoder;
 
+    private PostDeletionService postDeletionService;
 
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PostService postService) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PostDeletionService postDeletionService) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
-        this.postService = postService;
+        this.postDeletionService = postDeletionService;
     }
 
     public Account save(Account account){return accountRepository.save(account);
@@ -64,23 +62,6 @@ public class AccountService {
 
     }
 
-
-
-    /*public Account convertDtoToAccount(AccountDTO accountDto){
-        return accountRepository.findById(accountDto.getId()).orElseThrow(UserNotFoundException::new);
-    }
-
-    public AccountDTO convertAccountToDto(Account account){
-        return AccountDTO.builder()
-                .id(account.getId())
-                .email(account.getUsername())
-                .firstName(account.getFirstName())
-                .lastName(account.getLastName())
-                //.posts(convertPostToDto(account.getPosts()))
-                .authorities(addAccountAuthoritiesToDto(account))
-                .build();
-    }*/
-
     private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();
         account.getAuthorities().stream()
@@ -100,7 +81,7 @@ public class AccountService {
     public void delete(String emailFromRequest) {
         Account account = accountRepository.findByEmail(emailFromRequest);
         //List<Post> posts = postService.findByEmail(emailFromRequest);
-        postService.deleteAllPosts(account.getId());
+        postDeletionService.deleteAllPosts(account.getId());
         accountRepository.delete(account);
     }
 }

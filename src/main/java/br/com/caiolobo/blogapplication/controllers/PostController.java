@@ -3,7 +3,6 @@ package br.com.caiolobo.blogapplication.controllers;
 import br.com.caiolobo.blogapplication.config.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.View;
-import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.services.PostService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
