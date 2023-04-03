@@ -44,9 +44,9 @@ public class PostController {
     }
 
     @Operation(summary = "Delete Post by ID")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{postId}")
     @JsonView(View.Base.class)
-    public ResponseEntity deletePost(HttpServletRequest request, @PathVariable("id") Long id){
+    public ResponseEntity deletePost(HttpServletRequest request, @PathVariable("postId") Long id){
         PostDTO post = postService.findById(id);
 
         if (Objects.equals(jwtService.getIdFromRequest(request), post.getAccount().getId())){
@@ -57,7 +57,7 @@ public class PostController {
     }
 
     @Operation(summary = "Get all Posts by Account ID")
-    @GetMapping(value = "/{accountId}")
+    @GetMapping(value = "/all-posts/{accountId}")
     @JsonView(View.Base.class)
     public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id){
         return ResponseEntity.ok(postService.getAllById(id));

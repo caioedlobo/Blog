@@ -33,7 +33,7 @@ You can access the API through these forms:
 
 ## Dependencies
 
-There are a number of third-party dependencies used in the project. Browse the Maven pom.xml file for details of libraries and versions used.
+There are a number of third-party dependencies used in the project. Browse the Maven ```pom.xml``` file for details of libraries and versions used.
 ## How to run server locally
 
 Clone the project:
@@ -47,7 +47,7 @@ Go to the project directory:
 cd blog-application
 ```
 
-Before starting the server, navigate to application.properties file in ```src/main/resources``` path and set the variable ```spring.profiles.active=dev```. Now you must create a ```env.properties``` file that will contain:
+Before starting the server, navigate to ```application.properties``` file in ```src/main/resources``` path and set the variable ```spring.profiles.active=dev```. Now you must create a ```env.properties``` file that will contain:
 
 ```
 #Variables
