@@ -2,7 +2,6 @@ package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.config.JwtService;
-import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.models.View;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -39,12 +38,13 @@ public class AccountController {
         return ResponseEntity.ok(accountService.findById(id));
     }
 
+    @Operation(summary = "Update Account name")
     @PutMapping(value = "/update")
     public ResponseEntity<AccountUpdateDTO> updateAccountName(HttpServletRequest request, @RequestBody AccountUpdateDTO accountUpdateDTO){
         accountService.updateName(jwtService.getEmailFromRequest(request), accountUpdateDTO);
         return ResponseEntity.ok().body(accountUpdateDTO);
     }
-
+    @Operation(summary = "Update Account password")
     @PutMapping(value = "/update-password")
     public ResponseEntity<AuthenticationRequest> updateAccountPassword(HttpServletRequest request, @RequestBody AuthenticationRequest authenticationRequest){
         authenticationRequest.setEmail(jwtService.getEmailFromRequest(request));
@@ -52,6 +52,7 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Delete Account")
     @DeleteMapping("/delete")
     public ResponseEntity deleteAccount(HttpServletRequest request){
         accountService.delete(jwtService.getEmailFromRequest(request));

@@ -7,7 +7,6 @@ import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
-import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,12 +67,5 @@ public class PostService {
                 .map(authority -> authorities.add(String.valueOf(authority)))
                 .collect(Collectors.toSet());
         return authorities;
-    }
-
-    public void deleteAllPosts(Long id) {
-        List<Post> posts = postRepository.findByAccountId(id);
-        for(Post post: posts){
-            postRepository.delete(post);
-        }
     }
 }

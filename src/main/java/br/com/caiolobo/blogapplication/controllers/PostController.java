@@ -32,6 +32,7 @@ public class PostController {
         return ResponseEntity.ok().body(postService.findById(id));
     }
 
+    @Operation(summary = "Create Post")
     @PostMapping
     @JsonView(View.Base.class)
     public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
@@ -39,6 +40,7 @@ public class PostController {
         //TODO Colocar codigo 201
     }
 
+    @Operation(summary = "Get all Posts by Account ID")
     @GetMapping(value = "/account/{id}")
     @JsonView(View.Base.class)
     public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("id") Long id){
