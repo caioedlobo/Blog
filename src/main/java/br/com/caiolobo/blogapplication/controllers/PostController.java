@@ -11,10 +11,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Tag(name = "Post", description = "This endpoint allows for the creation, reading, updating, and deletion of posts.")
 @RestController
@@ -46,14 +48,11 @@ public class PostController {
     public ResponseEntity deletePost(HttpServletRequest request, @PathVariable("id") Long id){
         PostDTO post = postService.findById(id);
 
-        if (jwtService.getIdFromRequest(request) == post.getAccount().getId()){
+        if (Objects.equals(jwtService.getIdFromRequest(request), post.getAccount().getId())){
             postService.delete(id);
             return ResponseEntity.noContent().build();
         }
-        System.out.println(post.getId());
-        System.out.println(jwtService.getIdFromRequest(request));
-        return ResponseEntity.notFound().build();
-        //retorna error
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @Operation(summary = "Get all Posts by Account ID")
