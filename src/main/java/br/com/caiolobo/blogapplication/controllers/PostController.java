@@ -43,6 +43,7 @@ public class PostController {
         //TODO Colocar codigo 201
     }
 
+    @Operation(summary = "Delete Post by ID")
     @DeleteMapping("/{id}")
     @JsonView(View.Base.class)
     public ResponseEntity deletePost(HttpServletRequest request, @PathVariable("id") Long id){
