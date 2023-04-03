@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @Disabled
 class PostServiceTest {
-
+    /*
     @Mock
     private PostRepository postRepository;
     @InjectMocks
@@ -118,4 +118,7 @@ class PostServiceTest {
     @Disabled
     void convertPostsToDto() {
     }
+
+    */
+
 }

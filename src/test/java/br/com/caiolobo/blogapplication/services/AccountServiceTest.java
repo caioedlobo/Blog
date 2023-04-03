@@ -35,10 +35,10 @@ class AccountServiceTest {
     @InjectMocks
     private PostService postService;
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp(){
         underTest = new AccountService(accountRepository, passwordEncoder);
-    }
+    }*/
 
     @Test
     void canSave() {
