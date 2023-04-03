@@ -3,6 +3,7 @@ package br.com.caiolobo.blogapplication.controllers;
 import br.com.caiolobo.blogapplication.config.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.View;
+import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.services.PostService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,21 @@ public class PostController {
     public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
        return ResponseEntity.ok(postService.save(postDto, jwtService.getEmailFromRequest(request)));
         //TODO Colocar codigo 201
+    }
+
+    @DeleteMapping("/{id}")
+    @JsonView(View.Base.class)
+    public ResponseEntity deletePost(HttpServletRequest request, @PathVariable("id") Long id){
+        PostDTO post = postService.findById(id);
+
+        if (jwtService.getIdFromRequest(request) == post.getAccount().getId()){
+            postService.delete(id);
+            return ResponseEntity.noContent().build();
+        }
+        System.out.println(post.getId());
+        System.out.println(jwtService.getIdFromRequest(request));
+        return ResponseEntity.notFound().build();
+        //retorna error
     }
 
     @Operation(summary = "Get all Posts by Account ID")

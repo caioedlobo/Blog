@@ -68,4 +68,8 @@ public class PostService {
                 .collect(Collectors.toSet());
         return authorities;
     }
+
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
 }
