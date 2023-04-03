@@ -21,29 +21,15 @@ This API allows you to create and manage blog posts, comments, and users.
 There are a number of third-party dependencies used in the project. Browse the Maven pom.xml file for details of libraries and versions used.
 ## How to run server?
 
-Before starting the server, create application-dev.properties file in src/main/resources path and use that template.
+Before starting the server, navigate to application.properties file in ```src/main/resources``` path and set ```spring.profiles.active=dev```. Now you must create a env.properties file that will contain:
 
 ```
 #Variables
-application.url=
+
+#A 256-bit HEX secret encryption key that you can generate at https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
 secret.key=
 
-#Database
-server.port=
-spring.jpa.database=
-spring.datasource.url=
-spring.datasource.username=
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=
-spring.jpa.properties.hibernate.dialect=
-
-#Mail
+#Spring Mail - Email and Password of to send messages
 spring.mail.username=
 spring.mail.password=
-spring.mail.host=
-spring.mail.port=
-spring.mail.properties.mail.debug=
-spring.mail.properties.mail.transport.protocol=
-spring.mail.properties.mail.smtp.auth=
-spring.mail.properties.mail.smtp.starttls.enable=
 ```
