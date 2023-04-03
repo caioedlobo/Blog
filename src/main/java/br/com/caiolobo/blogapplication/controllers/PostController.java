@@ -56,9 +56,9 @@ public class PostController {
     }
 
     @Operation(summary = "Get all Posts by Account ID")
-    @GetMapping(value = "/account/{id}")
+    @GetMapping(value = "/{accountId}")
     @JsonView(View.Base.class)
-    public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("id") Long id){
+    public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id){
         return ResponseEntity.ok(postService.getAllById(id));
     }
 

@@ -19,7 +19,7 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiErrors handleUserNotFound(UserNotFoundException ex){
-        String message =ex.getMessage();
+        String message = ex.getMessage();
         return new ApiErrors(ex.getMessage());
     }
 

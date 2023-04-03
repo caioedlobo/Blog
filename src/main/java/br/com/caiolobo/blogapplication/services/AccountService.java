@@ -1,8 +1,10 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
+import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,13 +18,14 @@ public class AccountService {
 
     private AccountRepository accountRepository;
     private PasswordEncoder passwordEncoder;
-
     private PostDeletionService postDeletionService;
+    private AccountMapper accountMapper;
 
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PostDeletionService postDeletionService) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PostDeletionService postDeletionService, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.postDeletionService = postDeletionService;
+        this.accountMapper = accountMapper;
     }
 
     public Account save(Account account){return accountRepository.save(account);
@@ -35,23 +38,8 @@ public class AccountService {
         return Optional.ofNullable(accountRepository.findByEmail(email));
     }
 
-    public Account findById(Long id){
-        Account account = accountRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        /*AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(account.getId());
-        accountDTO.setEmail(account.getEmail());
-        accountDTO.setAuthorities(addAccountAuthoritiesToDto(account));
-        accountDTO.setFirstName(account.getFirstName());
-        accountDTO.setLastName(account.getLastName());
-        if(account.getPosts().isEmpty()){
-
-            accountDTO.setPosts(Collections.emptyList());
-        }
-        else {
-            accountDTO.setPosts(postService.convertPostsToDto(account.getPosts()));
-
-        }*/
-        return account;
+    public AccountDTO findById(Long id){
+        return accountMapper.toDto(accountRepository.findById(id).orElseThrow(UserNotFoundException::new));
     }
 
     public void updateName(String email, AccountUpdateDTO accountUpdateDTO){
