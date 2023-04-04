@@ -60,4 +60,4 @@ spring.mail.username=
 spring.mail.password=
 ```
 
-Now just run the file ```BlogApplication.java```
+Now just run ```BlogApplication.java```

@@ -38,7 +38,7 @@ public class PostController {
     @Operation(summary = "Create Post")
     @PostMapping
     @JsonView(View.Base.class)
-    public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
+    public ResponseEntity<PostDTO> create(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
        return ResponseEntity.ok(postService.save(postDto, jwtService.getEmailFromRequest(request)));
         //TODO Colocar codigo 201
     }
@@ -46,21 +46,26 @@ public class PostController {
     @Operation(summary = "Delete Post by ID")
     @DeleteMapping("/{postId}")
     @JsonView(View.Base.class)
-    public ResponseEntity deletePost(HttpServletRequest request, @PathVariable("postId") Long id){
+    public ResponseEntity delete(HttpServletRequest request, @PathVariable("postId") Long id){
         PostDTO post = postService.findById(id);
 
-        if (Objects.equals(jwtService.getIdFromRequest(request), post.getAccount().getId())){
+        if (isAccountLogged(request, post)){
             postService.delete(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+
     @Operation(summary = "Get all Posts by Account ID")
     @GetMapping(value = "/all-posts/{accountId}")
     @JsonView(View.Base.class)
     public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id){
         return ResponseEntity.ok(postService.getAllById(id));
+    }
+
+    private boolean isAccountLogged(HttpServletRequest request, PostDTO post) {
+        return Objects.equals(jwtService.getIdFromRequest(request), post.getAccount().getId());
     }
 
 }
