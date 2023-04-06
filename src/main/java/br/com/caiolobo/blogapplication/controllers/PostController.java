@@ -1,9 +1,8 @@
 package br.com.caiolobo.blogapplication.controllers;
 
-import br.com.caiolobo.blogapplication.config.JwtService;
+import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.View;
-import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.services.PostService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,10 +22,14 @@ import java.util.Objects;
 @RequestMapping(value = "/api/posts")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
-    @Autowired
-    private JwtService jwtService;
+
+    private final PostService postService;
+    private final JwtService jwtService;
+
+    public PostController(PostService postService, JwtService jwtService) {
+        this.postService = postService;
+        this.jwtService = jwtService;
+    }
 
     @Operation(summary = "Get Post by ID")
     @GetMapping(value = "/{id}")

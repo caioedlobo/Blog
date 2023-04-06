@@ -1,4 +1,4 @@
-package br.com.caiolobo.blogapplication.config;
+package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -9,7 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +21,13 @@ import org.springframework.core.env.Environment;
 @Service
 public class JwtService{
 
-    @Autowired
-    private Environment env;
-    @Autowired
-    private AccountService accountService;
+    private final Environment env;
+    private final AccountService accountService;
+
+    public JwtService(Environment env, AccountService accountService) {
+        this.env = env;
+        this.accountService = accountService;
+    }
 
     public String extractUsername(String jwtToken) {
         return extractClaim(jwtToken, Claims::getSubject);

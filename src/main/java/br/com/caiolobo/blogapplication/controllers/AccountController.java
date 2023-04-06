@@ -1,7 +1,7 @@
 package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
-import br.com.caiolobo.blogapplication.config.JwtService;
+import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.models.View;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -23,14 +22,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/accounts")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
 
-    @Autowired
-    private EmailService emailService;
+    private final AccountService accountService;
+    private final EmailService emailService;
+    private final JwtService jwtService;
 
-    @Autowired
-    private JwtService jwtService;
+    public AccountController(AccountService accountService, EmailService emailService, JwtService jwtService) {
+        this.accountService = accountService;
+        this.emailService = emailService;
+        this.jwtService = jwtService;
+    }
 
     @Operation(summary = "Get Account by ID")
     @GetMapping(value = "/{id}")

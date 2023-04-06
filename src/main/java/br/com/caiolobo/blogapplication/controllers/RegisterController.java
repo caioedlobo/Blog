@@ -20,8 +20,11 @@ import java.util.Optional;
 @RequestMapping(value = "/api/auth")
 public class RegisterController {
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+
+    public RegisterController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @Operation(summary = "Register an user")
     @ApiResponse(responseCode = "201")

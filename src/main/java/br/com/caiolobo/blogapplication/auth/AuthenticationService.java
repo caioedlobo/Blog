@@ -1,6 +1,6 @@
 package br.com.caiolobo.blogapplication.auth;
 
-import br.com.caiolobo.blogapplication.config.JwtService;
+import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;

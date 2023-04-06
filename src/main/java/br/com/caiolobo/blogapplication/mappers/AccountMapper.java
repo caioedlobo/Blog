@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class AccountMapper {
-    private PostAccountMapper postAccountMapper;
+    private final PostAccountMapper postAccountMapper;
     public AccountMapper(PostAccountMapper postAccountMapper) {
         this.postAccountMapper = postAccountMapper;
     }
