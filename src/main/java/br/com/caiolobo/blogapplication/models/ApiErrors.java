@@ -1,4 +1,4 @@
-package br.com.caiolobo.blogapplication;
+package br.com.caiolobo.blogapplication.models;
 
 import lombok.Getter;
 

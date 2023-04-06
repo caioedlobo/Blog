@@ -1,10 +1,13 @@
 package br.com.caiolobo.blogapplication.controllers;
 
-import br.com.caiolobo.blogapplication.ApiErrors;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotAuthorizedException;
+import br.com.caiolobo.blogapplication.models.ApiErrors;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,9 +22,14 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiErrors handleUserNotFound(UserNotFoundException ex){
-        String message = ex.getMessage();
         return new ApiErrors(ex.getMessage());
     }
+
+    /*@ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiErrors handleAccountNotCreated(UserNotFoundException ex){
+        return new ApiErrors(ex.getMessage());
+    }*/
 
     @ExceptionHandler(PostNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -48,6 +56,12 @@ public class ApplicationControllerAdvice {
                 .map(error -> error.getMessage())
                 .collect(Collectors.toList());
         return new ApiErrors(errors);
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiErrors handleInternalAuthenticationServiceException(AccountNotAuthorizedException ex){
+        return new ApiErrors(ex.getMessage());
     }
 
 }

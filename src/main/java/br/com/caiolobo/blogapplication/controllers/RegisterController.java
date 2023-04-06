@@ -3,17 +3,15 @@ package br.com.caiolobo.blogapplication.controllers;
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.auth.AuthenticationResponse;
 
-import br.com.caiolobo.blogapplication.auth.AuthenticationService;
+import br.com.caiolobo.blogapplication.services.AuthenticationService;
 import br.com.caiolobo.blogapplication.auth.RegisterRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.Optional;
 
 @Tag(name = "Authenticate", description = "This endpoint allows for the creation and authentication of accounts.")
 @RestController
