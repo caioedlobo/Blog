@@ -72,6 +72,13 @@ public class PostController {
         return ResponseEntity.ok(postService.getAll());
     }
 
+    @Operation(summary = "Get all Posts by Query")
+    @GetMapping(value = "/all-posts/search")
+    @JsonView(View.Base.class)
+    public ResponseEntity<List<PostDTO>> getAllPostsByQuery(@RequestParam("query") String query){
+        return ResponseEntity.ok(postService.findByQuery(query));
+    }
+
     private boolean isAccountLogged(HttpServletRequest request, PostDTO post) {
         return Objects.equals(jwtService.getIdFromRequest(request), post.getAccount().getId());
     }

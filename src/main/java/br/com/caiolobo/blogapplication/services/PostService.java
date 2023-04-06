@@ -54,6 +54,12 @@ public class PostService {
 
     public List<PostDTO> getAll(){return postMapper.postsToDto(postRepository.findAll());}
 
+    public List<PostDTO> findByQuery(String query){
+        return postMapper.postsToDto(postRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query));
+    }
+
+
+
     public List<PostDTO> getAllById(Long id){
         //*return convertPostsToDto(postRepository.findByAccountId(id));
         return postMapper.postsToDto(postRepository.findByAccountId(id));
