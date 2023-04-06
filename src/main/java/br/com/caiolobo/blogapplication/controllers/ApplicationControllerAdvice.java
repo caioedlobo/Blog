@@ -1,12 +1,11 @@
 package br.com.caiolobo.blogapplication.controllers;
 
-import br.com.caiolobo.blogapplication.exceptions.AccountNotAuthorizedException;
 import br.com.caiolobo.blogapplication.models.ApiErrors;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,12 +23,6 @@ public class ApplicationControllerAdvice {
     public ApiErrors handleUserNotFound(UserNotFoundException ex){
         return new ApiErrors(ex.getMessage());
     }
-
-    /*@ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ApiErrors handleAccountNotCreated(UserNotFoundException ex){
-        return new ApiErrors(ex.getMessage());
-    }*/
 
     @ExceptionHandler(PostNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -60,8 +53,14 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ApiErrors handleInternalAuthenticationServiceException(AccountNotAuthorizedException ex){
-        return new ApiErrors(ex.getMessage());
+    public ApiErrors handleInternalAuthenticationServiceException(InternalAuthenticationServiceException ex){
+        return new ApiErrors("A conta não existe.");
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleBadCredentialsException(BadCredentialsException ex){
+        return new ApiErrors("Dados fornecidos são inválidos");
     }
 
 }
