@@ -21,6 +21,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
 
     private static final String[] AUTH_WHITELIST = {
+            //Swagger
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
@@ -34,9 +35,12 @@ public class SecurityConfiguration {
             "/api/public/authenticate",
             "/actuator/*",
             "/swagger-ui/**",
-            "/api/auth/**",
             "/api/accounts/message/**",
-            "swagger-ui/index.html"
+            "swagger-ui/index.html",
+            //Application
+            "/api/auth/**",
+            "/api/posts/all-posts/**"
+
     };
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){

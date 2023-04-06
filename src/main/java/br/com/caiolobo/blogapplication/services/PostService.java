@@ -52,9 +52,7 @@ public class PostService {
         return postMapper.toDto(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
     }
 
-    public List<Post> getAll(){
-        return postRepository.findAll();
-    }
+    public List<PostDTO> getAll(){return postMapper.postsToDto(postRepository.findAll());}
 
     public List<PostDTO> getAllById(Long id){
         //*return convertPostsToDto(postRepository.findByAccountId(id));

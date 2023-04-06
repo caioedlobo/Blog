@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,12 +58,18 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-
     @Operation(summary = "Get all Posts by Account ID")
     @GetMapping(value = "/all-posts/{accountId}")
     @JsonView(View.Base.class)
     public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id){
         return ResponseEntity.ok(postService.getAllById(id));
+    }
+
+    @Operation(summary = "Get all Posts")
+    @GetMapping(value = "/all-posts")
+    @JsonView(View.Base.class)
+    public ResponseEntity<List<PostDTO>> getAllPosts(){
+        return ResponseEntity.ok(postService.getAll());
     }
 
     private boolean isAccountLogged(HttpServletRequest request, PostDTO post) {
