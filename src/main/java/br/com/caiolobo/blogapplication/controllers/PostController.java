@@ -72,7 +72,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getAll());
     }
 
-    @Operation(summary = "Get all Posts by Query")
+    @Operation(summary = "Get all Posts by querying by Title and Body")
     @GetMapping(value = "/all-posts/search")
     @JsonView(View.Base.class)
     public ResponseEntity<List<PostDTO>> getAllPostsByQuery(@RequestParam("query") String query){
