@@ -68,7 +68,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void ItShouldThrowAccountAlreadyExistsExceptionWhenTryingToSaveAccountWithExistingEmail() {
+    void itShouldThrowAccountAlreadyExistsExceptionWhenTryingToSaveAccountWithExistingEmail() {
         Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
 
@@ -76,5 +76,21 @@ class AccountServiceTest {
 
         verify(accountRepository, times(1)).findByEmail(EMAIL);
         verify(accountRepository, times(0)).save(any(Account.class));
+    }
+
+    @Test
+    void itShouldGetAllAccounts(){
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        Account account2 = new Account(2L, "teste2@teste.com", PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        List<Account> accounts = Arrays.asList(account, account2);
+
+        when(accountRepository.findAll()).thenReturn(accounts);
+
+        List<Account> result = accountService.getAll();
+
+        assertNotNull(result);
+        assertEquals(accounts, result);
+
+        verify(accountRepository, times(1)).findAll();
     }
 }
