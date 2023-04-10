@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
+import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -105,5 +106,24 @@ class AccountServiceTest {
 
         assertTrue(result.isPresent());
         assertEquals(account, result.get());
+    }
+
+    @Test
+    void itShouldUpdateAccountNameSuccessfully(){
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+
+        AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO();
+        accountUpdateDTO.setFirstName("Jane");
+        accountUpdateDTO.setLastName("Doa");
+
+        when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
+        when(accountRepository.save(account)).thenReturn(account);
+
+        accountService.updateName(EMAIL, accountUpdateDTO);
+
+        verify(accountRepository, times(1)).findByEmail(EMAIL);
+        verify(accountRepository, times(1)).save(account);
+        assertEquals(account.getFirstName(), accountUpdateDTO.getFirstName());
+        assertEquals(account.getLastName(), accountUpdateDTO.getLastName());
     }
 }
