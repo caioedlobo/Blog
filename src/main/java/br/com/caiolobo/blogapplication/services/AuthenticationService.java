@@ -3,6 +3,7 @@ package br.com.caiolobo.blogapplication.services;
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.auth.AuthenticationResponse;
 import br.com.caiolobo.blogapplication.auth.RegisterRequest;
+import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.Role;
@@ -23,6 +24,8 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    private final AccountService accountService;
     public AuthenticationResponse register(RegisterRequest request) {
         var user = Account.builder()
                 .firstName(request.getFirstname())
@@ -31,7 +34,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        accountRepository.save(user);
+        accountService.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -45,7 +48,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = accountRepository.findByEmail(request.getEmail());
+        var user = accountService.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

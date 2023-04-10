@@ -3,6 +3,7 @@ package br.com.caiolobo.blogapplication.services;
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
+import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -16,10 +17,10 @@ import java.util.stream.Collectors;
 @Service
 public class AccountService {
 
-    private AccountRepository accountRepository;
-    private PasswordEncoder passwordEncoder;
-    private PostDeletionService postDeletionService;
-    private AccountMapper accountMapper;
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PostDeletionService postDeletionService;
+    private final AccountMapper accountMapper;
 
     public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PostDeletionService postDeletionService, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
@@ -28,7 +29,12 @@ public class AccountService {
         this.accountMapper = accountMapper;
     }
 
-    public Account save(Account account){return accountRepository.save(account);
+    public Account save(Account account){
+        Account newAccount = accountRepository.findByEmail(account.getEmail());
+        if( newAccount == null){
+            return accountRepository.save(account);
+        }
+        throw new AccountAlreadyExistsException();
     }
     public List<Account> getAll(){
         return accountRepository.findAll();
@@ -50,13 +56,13 @@ public class AccountService {
 
     }
 
-    private Set<String> addAccountAuthoritiesToDto(Account account){
+    /*private Set<String> addAccountAuthoritiesToDto(Account account){
         Set<String> authorities = new HashSet<>();
         account.getAuthorities().stream()
                 .map(authority -> authorities.add(String.valueOf(authority)))
                 .collect(Collectors.toSet());
         return authorities;
-    }
+    }*/
 
 
     public void updatePassword(AuthenticationRequest authenticationRequest) {

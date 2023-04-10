@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.controllers;
 
+import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.models.ApiErrors;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
@@ -60,7 +61,13 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleBadCredentialsException(BadCredentialsException ex){
-        return new ApiErrors("Dados fornecidos são inválidos");
+        return new ApiErrors("Dados fornecidos são inválidos.");
+    }
+
+    @ExceptionHandler(AccountAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiErrors handleAccountAlreadyExistsException(AccountAlreadyExistsException ex){
+        return new ApiErrors("Conta já exist.e");
     }
 
 }
