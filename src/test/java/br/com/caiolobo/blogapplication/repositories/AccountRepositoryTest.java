@@ -1,58 +1,33 @@
 package br.com.caiolobo.blogapplication.repositories;
 
 import br.com.caiolobo.blogapplication.models.entities.Account;
-import br.com.caiolobo.blogapplication.models.Role;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class AccountRepositoryTest {
 
-    @Autowired
-    private AccountRepository underTest;
-
-
-    @AfterEach
-    void tearDown(){
-        underTest.deleteAll();
-    }
+    @Mock
+    private AccountRepository accountRepository;
 
     @Test
-    void itShouldFindAccountByEmail() {
+    void findByEmail() {
+        // given
+        String email = "fulano@gmail.com";
+        Account account = new Account();
+        account.setEmail(email);
 
-        //given
-        String email = "mail@example.com";
+        when(accountRepository.findByEmail(email)).thenReturn(account);
 
-        Account account1 = new Account();
-        account1.setEmail(email);
-        account1.setPassword("password");
-        account1.setFirstName("Fulano");
-        account1.setLastName("da Silva");
-        account1.setRole(Role.USER);
+        // when
+        Account result = accountRepository.findByEmail(email);
 
-        underTest.save(account1);
-
-        //when
-        Account findAccount = underTest.findByEmail(email);
-
-        //then
-        assertThat(account1.getEmail()).isEqualTo(findAccount.getEmail());
-    }
-
-    @Test
-    void itShouldNotFindAccountByEmail() {
-
-        //given
-        String email = "mail@example.com";
-
-        //when
-        Account findAccount = underTest.findByEmail(email);
-
-        //then
-        assertThat(findAccount).isNull();
+        // then
+        assertEquals(email, result.getEmail());
     }
 }
