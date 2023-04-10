@@ -3,7 +3,7 @@ package br.com.caiolobo.blogapplication.controllers;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.models.ApiErrors;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
-import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(AccountNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiErrors handleUserNotFound(UserNotFoundException ex){
+    public ApiErrors handleAccountNotFound(AccountNotFoundException ex){
         return new ApiErrors(ex.getMessage());
     }
 
@@ -67,7 +67,7 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(AccountAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiErrors handleAccountAlreadyExistsException(AccountAlreadyExistsException ex){
-        return new ApiErrors("Conta já exist.e");
+        return new ApiErrors("Conta já existe.");
     }
 
 }

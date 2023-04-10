@@ -1,8 +1,7 @@
 package br.com.caiolobo.blogapplication.services;
 
-import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import br.com.caiolobo.blogapplication.models.entities.Account;
-import br.com.caiolobo.blogapplication.services.AccountService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -89,7 +88,7 @@ public class JwtService{
 
     public Long getIdFromRequest(HttpServletRequest request){
         String token = request.getHeader("Authorization").substring(7); // remove o prefixo "Bearer "
-        Account account = accountService.findByEmail(extractUsername(token)).orElseThrow(UserNotFoundException::new);
+        Account account = accountService.findByEmail(extractUsername(token)).orElseThrow(AccountNotFoundException::new);
         return account.getId();
     }
 }

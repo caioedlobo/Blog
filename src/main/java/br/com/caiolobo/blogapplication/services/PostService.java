@@ -2,7 +2,7 @@ package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
-import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -32,7 +32,7 @@ public class PostService {
     }
 
     public PostDTO save(PostDTO postDto, String emailAccount){
-        Account account = accountService.findByEmail(emailAccount).orElseThrow(UserNotFoundException::new);
+        Account account = accountService.findByEmail(emailAccount).orElseThrow(AccountNotFoundException::new);
         if(postDto.getId() == null){
             postDto.setCreatedAt(String.valueOf(LocalDateTime.now()));
 

@@ -4,7 +4,7 @@ import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
-import br.com.caiolobo.blogapplication.exceptions.UserNotFoundException;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -45,7 +44,7 @@ public class AccountService {
     }
 
     public AccountDTO findById(Long id){
-        return accountMapper.toDto(accountRepository.findById(id).orElseThrow(UserNotFoundException::new));
+        return accountMapper.toDto(accountRepository.findById(id).orElseThrow(AccountNotFoundException::new));
     }
 
     public void updateName(String email, AccountUpdateDTO accountUpdateDTO){
