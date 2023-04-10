@@ -7,6 +7,7 @@ import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -92,5 +94,16 @@ class AccountServiceTest {
         assertEquals(accounts, result);
 
         verify(accountRepository, times(1)).findAll();
+    }
+
+    @Test
+    void itShouldFindAccountByEmail(){
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        when(accountRepository.findByEmail(account.getEmail())).thenReturn(account);
+
+        Optional<Account> result = accountService.findByEmail(EMAIL);
+
+        assertTrue(result.isPresent());
+        assertEquals(account, result.get());
     }
 }
