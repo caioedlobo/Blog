@@ -66,7 +66,9 @@ public class AccountService {
 
     public void updatePassword(AuthenticationRequest authenticationRequest) {
         Account account = accountRepository.findByEmail(authenticationRequest.getEmail());
+        System.out.println(account);
         account.setPassword(passwordEncoder.encode(authenticationRequest.getPassword()));
+        System.out.println(account);
         accountRepository.save(account);
 
     }

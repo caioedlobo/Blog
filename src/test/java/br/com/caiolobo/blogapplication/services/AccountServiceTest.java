@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.services;
 
+import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
@@ -9,6 +10,7 @@ import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 
 import org.checkerframework.checker.units.qual.A;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -109,7 +111,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void itShouldUpdateAccountNameSuccessfully(){
+    void itShouldUpdateAccountName(){
         Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
 
         AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO();
@@ -125,5 +127,24 @@ class AccountServiceTest {
         verify(accountRepository, times(1)).save(account);
         assertEquals(account.getFirstName(), accountUpdateDTO.getFirstName());
         assertEquals(account.getLastName(), accountUpdateDTO.getLastName());
+    }
+
+    @Test
+    void itShouldUpdateAccountPassword() {
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        String newPassword = "newPassword";
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+        authenticationRequest.setEmail(EMAIL);
+        authenticationRequest.setPassword(newPassword);
+
+        when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
+        when(accountRepository.save(account)).thenReturn(account);
+
+        accountService.updatePassword(authenticationRequest);
+
+        verify(accountRepository, times(1)).findByEmail(EMAIL);
+        verify(accountRepository, times(1)).save(account);
+
+        assertNotEquals(PASSWORD, account.getPassword());
     }
 }
