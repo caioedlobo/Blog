@@ -125,6 +125,7 @@ class AccountServiceTest {
 
         verify(accountRepository, times(1)).findByEmail(EMAIL);
         verify(accountRepository, times(1)).save(account);
+
         assertEquals(account.getFirstName(), accountUpdateDTO.getFirstName());
         assertEquals(account.getLastName(), accountUpdateDTO.getLastName());
     }
@@ -146,5 +147,17 @@ class AccountServiceTest {
         verify(accountRepository, times(1)).save(account);
 
         assertNotEquals(PASSWORD, account.getPassword());
+    }
+
+    @Test
+    void itShouldDeleteAccount(){
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+
+        when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
+        accountService.delete(account.getEmail());
+
+        verify(postDeletionService, times(1)).deleteAllPosts(account.getId());
+        verify(accountRepository, times(1)).delete(account);
+
     }
 }
