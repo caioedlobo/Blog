@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
+import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.Role;
@@ -19,9 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,12 +46,12 @@ class AccountServiceTest {
     private AccountMapper accountMapper;
 
     @BeforeEach
-    void setUp(){
-        accountService = new AccountService(accountRepository, passwordEncoder, postDeletionService,accountMapper);
+    void setUp() {
+        accountService = new AccountService(accountRepository, passwordEncoder, postDeletionService, accountMapper);
     }
 
     @Test
-    void itShouldSaveAccount(){
+    void itShouldSaveAccount() {
         Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
 
         when(accountRepository.findByEmail(account.getEmail())).thenReturn(null);
@@ -69,6 +69,12 @@ class AccountServiceTest {
 
     @Test
     void ItShouldThrowAccountAlreadyExistsExceptionWhenTryingToSaveAccountWithExistingEmail() {
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
 
+        assertThrows(AccountAlreadyExistsException.class, () -> accountService.save(account));
 
+        verify(accountRepository, times(1)).findByEmail(EMAIL);
+        verify(accountRepository, times(0)).save(any(Account.class));
+    }
 }
