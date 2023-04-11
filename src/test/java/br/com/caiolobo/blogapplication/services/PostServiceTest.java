@@ -1,12 +1,15 @@
 package br.com.caiolobo.blogapplication.services;
 
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,109 +19,64 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
-@Disabled
 class PostServiceTest {
-    /*
+
+    private static final Long ID = 1L;
+    private static final String EMAIL = "test@test.com";
+    private static final String FIRST_NAME = "John";
+    private static final String LAST_NAME = "Doe";
+    private static final String PASSWORD = "password";
+    private static final String TITLE = "Test Post";
+    private static final String BODY = "This is a test post.";
+
     @Mock
     private PostRepository postRepository;
-    @InjectMocks
-    private PostService underTest;
-
+    @Mock
     private AccountMapper accountMapper;
-    @InjectMocks
+    @Mock
+    private PostMapper postMapper;
+    @Mock
     private AccountService accountService;
-    @Mock
-    private AccountRepository accountRepository;
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    public void PostService(PostRepository postRepository, AccountService accountService) {
-        this.postRepository = postRepository;
-        this.accountService = accountService;
-    }
-
+    @InjectMocks
+    private PostService postService;
 
     @BeforeEach
     void setUp(){
-        underTest = new PostService(postRepository, accountRepository, accountService, accountMapper);
-        accountService = new AccountService(accountRepository, passwordEncoder);
+        postService = new PostService(postRepository, accountService, accountMapper, postMapper);
     }
 
     @Test
-    @Disabled
-    void canSave() {
-        //given
-        Account account = new Account();
-        account.setId(1L);
-        account.setEmail("fulano@mail.com");
-        account.setPassword("password");
-        account.setFirstName("Fulano");
-        account.setLastName("da Silva");
-        account.setRole(Role.USER);
+    void itShouldSave(){
+        PostDTO postDTO = new PostDTO();
+        postDTO.setTitle(TITLE);
+        postDTO.setBody(BODY);
+        Account account = new Account(ID, EMAIL, "password", "John", "Doe", null, null);
+        Post post = new Post(ID, TITLE, BODY, null, account);
 
-        Post post = new Post();
-        post.setTitle("Título");
-        post.setBody("Corpo do texto");
-        post.setAccount(account);
+        when(accountService.findByEmail(EMAIL)).thenReturn(Optional.of(account));
+        when(postMapper.toPost(postDTO, account)).thenReturn(post);
+        when(postRepository.save(any(Post.class))).thenReturn(post);
 
-        PostDTO postDto =  new PostDTO();
-        System.out.println(post.getAccount());
-        //when
-        //postDto = underTest.convertPostToDto(post);
-        when(underTest.convertPostToDto(post)).thenReturn(postDto);
+        PostDTO result = postService.save(postDTO, EMAIL);
 
-        //then
-        assertEquals(1, 1);
-        //underTest.save(postDto, account.getEmail());
-    }
+        assertNotNull(result);
+        assertEquals(post.getId(), result.getId());
+        assertEquals(post.getTitle(), result.getTitle());
 
-    @Test
-    @Disabled
-    void getById() {
-    }
 
-    @Test
-    @Disabled
-    void getAll() {
-    }
+        verify(accountService, times(1)).findByEmail(EMAIL);
+        verify(postMapper, times(1)).toPost(postDTO, account);
+        verify(postRepository, times(1)).save(any(Post.class));
 
-    @Test
-    @Disabled
-    void canConvertPostToDto() {
-        //given
-        Account account = new Account();
-        account.setId(1L);
-        account.setEmail("fulano@mail.com");
-        account.setPassword("password");
-        account.setFirstName("Fulano");
-        account.setLastName("da Silva");
-        account.setRole(Role.USER);
-        Post post = new Post();
-        post.setId(1L);
-        post.setTitle("Título");
-        post.setBody("Corpo do texto");
-        post.setAccount(account);
-        //PostDTO postDto = new PostDTO();
-        //when(underTest.convertPostToDto(post)).thenReturn(postDto);
-        PostDTO postDto = underTest.convertPostToDto(post);
-        //System.out.println(accountService.convertAccountToDto(account));
-        //when
-        //PostDTO postDto = underTest.convertPostToDto(post);
-
-        //then
-        //verify
-        assertEquals(postDto.getId(), post.getId());
 
     }
-
-    @Test
-    @Disabled
-    void convertPostsToDto() {
-    }
-
-    */
 
 }

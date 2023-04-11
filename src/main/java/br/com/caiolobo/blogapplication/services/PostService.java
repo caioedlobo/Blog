@@ -17,16 +17,14 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
 
-    private PostRepository postRepository;
-    private AccountMapper accountMapper;
-    private PostMapper postMapper;
+    private final PostRepository postRepository;
+    private final AccountMapper accountMapper;
+    private final PostMapper postMapper;
+    private final AccountService accountService;
 
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    public PostService(PostRepository postRepository, AccountMapper accountMapper, PostMapper postMapper) {
+    public PostService(PostRepository postRepository, AccountService accountService, AccountMapper accountMapper, PostMapper postMapper) {
         this.postRepository = postRepository;
+        this.accountService = accountService;
         this.accountMapper = accountMapper;
         this.postMapper = postMapper;
     }

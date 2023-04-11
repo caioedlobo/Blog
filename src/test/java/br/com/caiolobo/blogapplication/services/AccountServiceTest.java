@@ -1,16 +1,12 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
-import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
-import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -23,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -39,6 +33,7 @@ class AccountServiceTest {
     private static final String LAST_NAME = "Doe";
     private static final String PASSWORD = "password";
 
+    @InjectMocks
     private AccountService accountService;
 
     @Mock
