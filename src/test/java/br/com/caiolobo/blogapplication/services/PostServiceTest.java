@@ -3,6 +3,7 @@ package br.com.caiolobo.blogapplication.services;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
+import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -110,6 +111,15 @@ class PostServiceTest {
         assertEquals(postDTO.getTitle(), findPostDTO.getTitle());
 
         verify(postMapper, times(1)).toDto(post);
+        verify(postRepository, times(1)).findById(ID);
+    }
+
+    @Test
+    void itShouldThrowPostNotFoundExceptionWhenFindingNonExistentPost(){
+
+        when(postRepository.findById(ID)).thenReturn(Optional.empty());
+        assertThrows(PostNotFoundException.class, () -> postService.findById(ID));
+
         verify(postRepository, times(1)).findById(ID);
     }
 
