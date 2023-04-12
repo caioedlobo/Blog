@@ -89,7 +89,28 @@ class PostServiceTest {
 
         verify(accountService, times(1)).findByEmail(EMAIL);
         verify(postRepository, times(0)).save(any(Post.class));
+    }
 
+    @Test
+    public void itShouldFindPostById(){
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(ID);
+        postDTO.setTitle(TITLE);
+        postDTO.setBody(BODY);
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        Post post = new Post(ID, TITLE, BODY, null, account);
+
+        when(postMapper.toDto(post)).thenReturn(postDTO);
+        when(postRepository.findById(ID)).thenReturn(Optional.of(post));
+
+        PostDTO findPostDTO = postService.findById(ID);
+
+        assertNotNull(findPostDTO);
+        assertEquals(postDTO.getId(), findPostDTO.getId());
+        assertEquals(postDTO.getTitle(), findPostDTO.getTitle());
+
+        verify(postMapper, times(1)).toDto(post);
+        verify(postRepository, times(1)).findById(ID);
     }
 
 }
