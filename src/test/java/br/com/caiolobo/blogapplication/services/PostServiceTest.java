@@ -92,7 +92,7 @@ class PostServiceTest {
     }
 
     @Test
-    public void itShouldFindPostById(){
+    void itShouldFindPostById(){
         PostDTO postDTO = new PostDTO();
         postDTO.setId(ID);
         postDTO.setTitle(TITLE);
