@@ -2,6 +2,7 @@ package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -58,7 +59,7 @@ class PostServiceTest {
         PostDTO postDTO = new PostDTO();
         postDTO.setTitle(TITLE);
         postDTO.setBody(BODY);
-        Account account = new Account(ID, EMAIL, "password", "John", "Doe", null, null);
+        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         Post post = new Post(ID, TITLE, BODY, null, account);
 
         when(accountService.findByEmail(EMAIL)).thenReturn(Optional.of(account));
@@ -71,11 +72,23 @@ class PostServiceTest {
         assertEquals(post.getId(), result.getId());
         assertEquals(post.getTitle(), result.getTitle());
 
-
         verify(accountService, times(1)).findByEmail(EMAIL);
         verify(postMapper, times(1)).toPost(postDTO, account);
         verify(postRepository, times(1)).save(any(Post.class));
+    }
 
+    @Test
+    void itShouldThrowAccountNotFoundExceptionWhenSavingPostWithNonExistentAccount(){
+        PostDTO postDTO = new PostDTO();
+        postDTO.setTitle(TITLE);
+        postDTO.setBody(BODY);
+
+        when(accountService.findByEmail(EMAIL)).thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class, () -> postService.save(postDTO, EMAIL));
+
+        verify(accountService, times(1)).findByEmail(EMAIL);
+        verify(postRepository, times(0)).save(any(Post.class));
 
     }
 
