@@ -21,7 +21,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -116,7 +120,6 @@ class PostServiceTest {
 
     @Test
     void itShouldThrowPostNotFoundExceptionWhenFindingNonExistentPost(){
-
         when(postRepository.findById(ID)).thenReturn(Optional.empty());
         assertThrows(PostNotFoundException.class, () -> postService.findById(ID));
 

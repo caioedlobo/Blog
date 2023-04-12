@@ -39,7 +39,8 @@ public class SecurityConfiguration {
             "swagger-ui/index.html",
             //Application
             "/api/auth/**",
-            "/api/posts/all-posts/**"
+            "/api/posts/all-posts/**",
+            "/forgot-password/**"
 
     };
     @Bean

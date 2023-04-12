@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
+import br.com.caiolobo.blogapplication.exceptions.TokenExpiredException;
 import br.com.caiolobo.blogapplication.models.ApiErrors;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
@@ -68,6 +69,12 @@ public class ApplicationControllerAdvice {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiErrors handleAccountAlreadyExistsException(AccountAlreadyExistsException ex){
         return new ApiErrors("Conta já existe.");
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiErrors handleTokenExpiredException(TokenExpiredException ex){
+        return new ApiErrors(ex.getMessage());
     }
 
 }
