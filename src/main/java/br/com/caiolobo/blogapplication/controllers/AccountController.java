@@ -61,15 +61,4 @@ public class AccountController {
         accountService.delete(jwtService.getEmailFromRequest(request));
         return ResponseEntity.noContent().build();
     }
-
-
-
-    @PostMapping(value = "/message")
-    public String sendEmailMessage(@RequestBody String email){
-        emailService.sendMessage(
-                email,
-                "Recuperação de conta",
-                "Texto de teste");
-        return "Mensagem enviada";
-    }
 }

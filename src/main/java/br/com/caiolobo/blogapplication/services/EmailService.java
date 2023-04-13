@@ -14,12 +14,12 @@ public class EmailService {
         this.emailSender = emailSender;
     }
 
-    public void sendMessage(String to, String subject, String text){
+    public void sendRecoveryMessage(String to, String token){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("blogcaioapi@gmail.com");
         message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
+        message.setSubject("Recuperação de senha");
+        message.setText("Olá, segue aqui o link de recuperação de senha: blogcaiolobo.netlify.app/forgot-password/" + token);
         this.emailSender.send(message);
     }
 
