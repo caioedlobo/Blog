@@ -5,11 +5,10 @@ import br.com.caiolobo.blogapplication.models.RecoveryPasswordRequest;
 import br.com.caiolobo.blogapplication.services.PasswordRecoveryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.token.Token;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/forgot-password")
+@RequestMapping("/api/forgot-password")
 public class PasswordRecoveryController {
 
     PasswordRecoveryService passwordRecoveryService;
