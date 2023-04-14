@@ -4,6 +4,7 @@ import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.models.RecoveryPasswordRequest;
 import br.com.caiolobo.blogapplication.services.PasswordRecoveryService;
 import jakarta.validation.Valid;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,9 @@ public class PasswordRecoveryController {
         this.passwordRecoveryService = passwordRecoveryService;
     }
 
+    @SneakyThrows
     @PostMapping
-    public ResponseEntity generateToken(@RequestBody RecoveryPasswordRequest request) throws Exception {
+    public ResponseEntity generateToken(@RequestBody RecoveryPasswordRequest request) {
         passwordRecoveryService.generateToken(request);
         return ResponseEntity.ok().build();
     }

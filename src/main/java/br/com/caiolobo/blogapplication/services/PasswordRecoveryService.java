@@ -6,6 +6,7 @@ import br.com.caiolobo.blogapplication.models.PasswordTokenPublicData;
 import br.com.caiolobo.blogapplication.models.RecoveryPasswordRequest;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
+import lombok.SneakyThrows;
 import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
 import org.springframework.security.core.token.SecureRandomFactoryBean;
 import org.springframework.security.core.token.Token;
@@ -31,15 +32,18 @@ public class PasswordRecoveryService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String generateToken(RecoveryPasswordRequest request) throws Exception{
+    @SneakyThrows
+    public void generateToken(RecoveryPasswordRequest request){
         Account account = accountRepository.findByEmail(request.getEmail());
+        if(account == null){
+            return;
+        }
         tokenService.setServerSecret(account.getPassword());
         tokenService.setServerInteger(16);
         tokenService.setSecureRandom(new SecureRandomFactoryBean().getObject());
 
         Token token = tokenService.allocateToken(account.getEmail());
         emailService.sendRecoveryMessage(account.getEmail(), String.valueOf(token.getKey()));
-        return String.valueOf(token.getKey());
     }
 
     public void changePassword(String newPassword, String token){
