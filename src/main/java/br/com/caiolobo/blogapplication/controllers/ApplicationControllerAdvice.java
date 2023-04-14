@@ -53,13 +53,7 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(errors);
     }
 
-    @ExceptionHandler(InternalAuthenticationServiceException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ApiErrors handleInternalAuthenticationServiceException(InternalAuthenticationServiceException ex){
-        return new ApiErrors("A conta não existe.");
-    }
-
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleBadCredentialsException(BadCredentialsException ex){
         return new ApiErrors("Dados fornecidos são inválidos.");
