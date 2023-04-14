@@ -3,13 +3,16 @@ package br.com.caiolobo.blogapplication.services;
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.auth.AuthenticationResponse;
 import br.com.caiolobo.blogapplication.auth.RegisterRequest;
+import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.Role;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,15 +41,15 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) throws InternalAuthenticationServiceException {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = accountService.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        Account account = accountService.findByEmail(request.getEmail()).orElseThrow(AccountNotFoundException::new);
+        var jwtToken = jwtService.generateToken(account);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

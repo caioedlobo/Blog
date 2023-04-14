@@ -55,7 +55,7 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleBadCredentialsException(BadCredentialsException ex){
+    public ApiErrors handleBadCredentialsException(Exception ex){
         return new ApiErrors("Dados fornecidos são inválidos.");
     }
 
