@@ -35,7 +35,7 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         accountService.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -49,7 +49,7 @@ public class AuthenticationService {
                 )
         );
         Account account = accountService.findByEmail(request.getEmail()).orElseThrow(AccountNotFoundException::new);
-        var jwtToken = jwtService.generateToken(account);
+        String jwtToken = jwtService.generateToken(account);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

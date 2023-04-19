@@ -50,7 +50,7 @@ public class PostController {
     @JsonView(View.Base.class)
     public ResponseEntity delete(HttpServletRequest request, @PathVariable("postId") Long id){
         PostDTO post = postService.findById(id);
-
+        
         if (isAccountLogged(request, post)){
             postService.delete(id);
             return ResponseEntity.noContent().build();
