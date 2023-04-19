@@ -40,7 +40,8 @@ public class SecurityConfiguration {
             //Application
             "/api/auth/**",
             "/api/posts/all-posts/**",
-            "/api/forgot-password/**"
+            "/api/forgot-password/**",
+            "/api/auth/is-authenticated/"
 
     };
     @Bean
