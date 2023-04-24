@@ -63,4 +63,10 @@ public class AccountController {
         accountService.delete(jwtService.getEmailFromRequest(request));
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Get ID by Account logged in")
+    @GetMapping("/account-id")
+    public ResponseEntity<Long> getAccountLoggedId(HttpServletRequest request){
+        return ResponseEntity.ok().body(accountService.getAccountId(jwtService.getEmailFromRequest(request)));
+    }
 }

@@ -68,12 +68,15 @@ public class AccountService {
         Account account = accountRepository.findByEmail(authenticationRequest.getEmail());
         account.setPassword(passwordEncoder.encode(authenticationRequest.getPassword()));
         accountRepository.save(account);
+    }
 
+    public Long getAccountId(String email) {
+        Account account = accountRepository.findByEmail(email);
+        return account.getId();
     }
 
     public void delete(String emailFromRequest) {
         Account account = accountRepository.findByEmail(emailFromRequest);
-        //List<Post> posts = postService.findByEmail(emailFromRequest);
         postDeletionService.deleteAllPosts(account.getId());
         accountRepository.delete(account);
     }

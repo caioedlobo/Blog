@@ -15,11 +15,14 @@ public class RegisterRequest {
 
     @NotEmpty(message = "{campo.firstName-obrigatorio}")
     private String firstname;
+
     @NotEmpty(message = "{campo.lastName-obrigatorio}")
     private String lastname;
+
     @NotEmpty(message = "{campo.email-obrigatorio}")
     @Email(message = "{campo.email-invalido}")
     private String email;
+
     @NotEmpty(message = "{campo.password-obrigatorio}")
     private String password;
 }
