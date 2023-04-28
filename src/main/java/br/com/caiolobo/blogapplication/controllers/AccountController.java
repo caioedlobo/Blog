@@ -44,7 +44,7 @@ public class AccountController {
     }
 
     @Operation(summary = "Update Account name")
-    @PutMapping(value = "/update")
+    @PutMapping(value = "/update-name")
     public ResponseEntity<AccountUpdateDTO> updateAccountName(HttpServletRequest request, @RequestBody AccountUpdateDTO accountUpdateDTO){
         accountService.updateName(jwtService.getEmailFromRequest(request), accountUpdateDTO);
         return ResponseEntity.ok().body(accountUpdateDTO);
