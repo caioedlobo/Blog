@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 
 @Tag(name = "Authenticate", description = "This endpoint allows for the creation and authentication of accounts.")
 @RestController
-@RequestMapping(value = "/api/auth")
+@RequestMapping(value = "/api/v1/auth")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;

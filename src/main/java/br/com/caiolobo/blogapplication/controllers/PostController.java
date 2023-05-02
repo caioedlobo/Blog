@@ -18,9 +18,8 @@ import java.util.Objects;
 
 @Tag(name = "Post", description = "This endpoint allows for the creation, reading, updating, and deletion of posts.")
 @RestController
-@RequestMapping(value = "/api/posts")
+@RequestMapping(value = "/api/v1/posts")
 public class PostController {
-
 
     private final PostService postService;
     private final JwtService jwtService;

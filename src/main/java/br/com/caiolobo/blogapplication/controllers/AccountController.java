@@ -22,16 +22,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Account", description = "This endpoint allows for the creation, reading, updating, and deletion of accounts.")
 @RestController
-@RequestMapping(value = "/api/accounts")
+@RequestMapping(value = "/api/v1/accounts")
 public class AccountController {
 
     private final AccountService accountService;
-    private final EmailService emailService;
     private final JwtService jwtService;
 
-    public AccountController(AccountService accountService, EmailService emailService, JwtService jwtService) {
+    public AccountController(AccountService accountService, JwtService jwtService) {
         this.accountService = accountService;
-        this.emailService = emailService;
         this.jwtService = jwtService;
     }
 
