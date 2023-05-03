@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class AccountController {
     }
     @Operation(summary = "Update Account password")
     @PutMapping(value = "/update-password")
-    public ResponseEntity<AuthenticationRequest> updateAccountPassword(HttpServletRequest request, @RequestBody PasswordRequest passwordRequest){
+    public ResponseEntity<AuthenticationRequest> updateAccountPassword(HttpServletRequest request, @Valid @RequestBody PasswordRequest passwordRequest){
         accountService.updatePassword(jwtService.getEmailFromRequest(request), passwordRequest);
         return ResponseEntity.noContent().build();
     }
