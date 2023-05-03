@@ -20,13 +20,13 @@ public class PasswordRecoveryController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity generateToken(@RequestBody RecoveryPasswordRequest request) {
+    public ResponseEntity<String> generateToken(@RequestBody RecoveryPasswordRequest request) {
         passwordRecoveryService.generateToken(request);
         return ResponseEntity.ok().body("Se a conta existir no sistema, foi enviado um email.");
     }
 
     @PostMapping("/{token}")
-    public ResponseEntity changeAccountPassword(@Valid @PathVariable("token") String token, @RequestBody AuthenticationRequest request){
+    public ResponseEntity<Void> changeAccountPassword(@Valid @PathVariable("token") String token, @RequestBody AuthenticationRequest request){
         passwordRecoveryService.changePassword(request.getPassword(), token);
         return ResponseEntity.ok().build();
     }
