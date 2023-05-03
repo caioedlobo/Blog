@@ -6,6 +6,7 @@ import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.exceptions.AccountNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.models.PasswordRequest;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,9 +65,9 @@ public class AccountService {
     }*/
 
 
-    public void updatePassword(AuthenticationRequest authenticationRequest) {
-        Account account = accountRepository.findByEmail(authenticationRequest.getEmail());
-        account.setPassword(passwordEncoder.encode(authenticationRequest.getPassword()));
+    public void updatePassword(String email, PasswordRequest passwordRequest) {
+        Account account = accountRepository.findByEmail(email);
+        account.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
         accountRepository.save(account);
     }
 
