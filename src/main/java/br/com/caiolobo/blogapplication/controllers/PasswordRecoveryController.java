@@ -5,6 +5,7 @@ import br.com.caiolobo.blogapplication.models.RecoveryPasswordRequest;
 import br.com.caiolobo.blogapplication.services.PasswordRecoveryService;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class PasswordRecoveryController {
     @PostMapping
     public ResponseEntity<String> generateToken(@RequestBody RecoveryPasswordRequest request) {
         passwordRecoveryService.generateToken(request);
-        return ResponseEntity.ok().body("Se a conta existir no sistema, foi enviado um email.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Se a conta existir no sistema, foi enviado um email.");
     }
 
     @PostMapping("/{token}")
