@@ -26,7 +26,7 @@ public class PasswordRecoveryController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Se a conta existir no sistema, foi enviado um email.");
     }
 
-    @PostMapping("/{token}")
+    @PutMapping("/{token}")
     public ResponseEntity<Void> changeAccountPassword(@Valid @PathVariable("token") String token, @RequestBody AuthenticationRequest request){
         passwordRecoveryService.changePassword(request.getPassword(), token);
         return ResponseEntity.ok().build();

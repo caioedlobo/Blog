@@ -47,7 +47,7 @@ public class PostController {
     @Operation(summary = "Delete Post by ID")
     @DeleteMapping("/{postId}")
     @JsonView(View.Base.class)
-    public ResponseEntity delete(HttpServletRequest request, @PathVariable("postId") Long id){
+    public ResponseEntity<Void> delete(HttpServletRequest request, @PathVariable("postId") Long id){
         PostDTO post = postService.findById(id);
         
         if (isAccountLogged(request, post)){

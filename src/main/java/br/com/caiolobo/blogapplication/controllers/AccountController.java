@@ -58,7 +58,7 @@ public class AccountController {
 
     @Operation(summary = "Delete Account")
     @DeleteMapping("/delete")
-    public ResponseEntity deleteAccount(HttpServletRequest request){
+    public ResponseEntity<Void> deleteAccount(HttpServletRequest request){
         accountService.delete(jwtService.getEmailFromRequest(request));
         return ResponseEntity.noContent().build();
     }

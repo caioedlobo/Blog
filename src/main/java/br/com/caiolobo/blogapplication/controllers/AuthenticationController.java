@@ -44,7 +44,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/is-authenticated")
-    public ResponseEntity verifyIsAuthenticated(HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Void> verifyIsAuthenticated(HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         jwtService.isTokenValid(request, userDetails);
         return ResponseEntity.ok().build();
     }
