@@ -39,14 +39,14 @@ public class PostController {
     @Operation(summary = "Create Post")
     @PostMapping
     @JsonView(View.Base.class)
-    public ResponseEntity<PostDTO> create(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
+    public ResponseEntity<PostDTO> createPost(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
        return ResponseEntity.status(HttpStatus.CREATED).body((postService.save(postDto, jwtService.getEmailFromRequest(request))));
     }
 
     @Operation(summary = "Delete Post by ID")
     @DeleteMapping("/{postId}")
     @JsonView(View.Base.class)
-    public ResponseEntity<Void> delete(HttpServletRequest request, @PathVariable("postId") Long id){
+    public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable("postId") Long id){
         PostDTO post = postService.findById(id);
         
         if (isAccountLogged(request, post)){
