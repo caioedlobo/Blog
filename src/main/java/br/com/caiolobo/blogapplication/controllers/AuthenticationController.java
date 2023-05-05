@@ -34,18 +34,18 @@ public class AuthenticationController {
     @Operation(summary = "Register an user")
     @ApiResponse(responseCode = "201")
     @PostMapping(value = "/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> registerAccount(@RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(request));
     }
 
     @Operation(summary = "Authenticate user")
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticateAccount(@RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @GetMapping("/is-authenticated")
-    public ResponseEntity<Void> verifyIsAuthenticated(HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Void> verifyAccountIsAuthenticated(HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         jwtService.isTokenValid(request, userDetails);
         return ResponseEntity.ok().build();
     }
