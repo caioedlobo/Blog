@@ -39,7 +39,7 @@ public class AccountController {
     @GetMapping(value = "/{id}")
     //@JsonView(View.ExcludeAccountFromPost.class)
     @JsonView(View.Base.class)
-    public ResponseEntity<AccountDTO> getAccount(@PathVariable("id") Long id){
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable("id") Long id){
         return ResponseEntity.ok(accountService.findById(id));
     }
 
