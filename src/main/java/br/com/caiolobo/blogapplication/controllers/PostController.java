@@ -40,8 +40,7 @@ public class PostController {
     @PostMapping
     @JsonView(View.Base.class)
     public ResponseEntity<PostDTO> create(@RequestBody @Valid PostDTO postDto, HttpServletRequest request){
-       return ResponseEntity.ok(postService.save(postDto, jwtService.getEmailFromRequest(request)));
-        //TODO Colocar codigo 201
+       return ResponseEntity.status(HttpStatus.CREATED).body((postService.save(postDto, jwtService.getEmailFromRequest(request))));
     }
 
     @Operation(summary = "Delete Post by ID")
