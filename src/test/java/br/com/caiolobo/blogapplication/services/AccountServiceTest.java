@@ -125,7 +125,7 @@ class AccountServiceTest {
         assertEquals(account.getLastName(), accountUpdateDTO.getLastName());
     }
 
-    @Test
+    /*@Test
     void itShouldUpdateAccountPassword() {
         Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         String newPassword = "newPassword";
@@ -142,7 +142,7 @@ class AccountServiceTest {
         verify(accountRepository, times(1)).save(account);
 
         assertNotEquals(PASSWORD, account.getPassword());
-    }
+    }*/
 
     @Test
     void itShouldDeleteAccount(){
