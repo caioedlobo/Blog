@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
+import br.com.caiolobo.blogapplication.models.PasswordRequest;
 import br.com.caiolobo.blogapplication.models.RecoveryPasswordRequest;
 import br.com.caiolobo.blogapplication.services.PasswordRecoveryService;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class PasswordRecoveryController {
     }
 
     @PutMapping("/{token}")
-    public ResponseEntity<Void> changeAccountPassword(@Valid @PathVariable("token") String token, @RequestBody AuthenticationRequest request){
+    public ResponseEntity<Void> changeAccountPassword(@Valid @PathVariable("token") String token, @RequestBody PasswordRequest request){
         passwordRecoveryService.changePassword(request.getPassword(), token);
         return ResponseEntity.ok().build();
     }
