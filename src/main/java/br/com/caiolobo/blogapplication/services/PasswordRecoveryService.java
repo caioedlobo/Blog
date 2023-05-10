@@ -2,6 +2,8 @@ package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.exceptions.TokenExpiredException;
+import br.com.caiolobo.blogapplication.exceptions.TokenPasswordMalformattedException;
+import br.com.caiolobo.blogapplication.exceptions.TokenPasswordVerificationException;
 import br.com.caiolobo.blogapplication.models.PasswordTokenPublicData;
 import br.com.caiolobo.blogapplication.models.RecoveryPasswordRequest;
 import br.com.caiolobo.blogapplication.models.entities.Account;
@@ -47,13 +49,25 @@ public class PasswordRecoveryService {
     }
 
     public void changePassword(String newPassword, String token){
-        PasswordTokenPublicData publicData = readPublicData(token);
+        PasswordTokenPublicData publicData = null;
+        try {
+            publicData = readPublicData(token);
+        } catch (IllegalArgumentException e){
+            throw new TokenPasswordMalformattedException();
+        }
+
         if (Boolean.TRUE.equals(isTokenExpired(publicData))){
             throw new TokenExpiredException();
         }
-        tokenService.verifyToken(token);
 
-        Account account = accountRepository.findByEmail(publicData.getEmail());
+        try {
+            tokenService.verifyToken(token);
+
+        } catch (NullPointerException e){
+            throw new TokenPasswordVerificationException();
+        }
+
+        Account account = accountRepository.findByEmail(publicData.getEmail());     // TODO: trocar para service
         account.setPassword(passwordEncoder.encode(newPassword));
         accountRepository.save(account);
     }
