@@ -98,7 +98,7 @@ public class JwtService{
 
     public Long getIdFromRequest(HttpServletRequest request){
         String token = request.getHeader("Authorization").substring(7); // remove o prefixo "Bearer "
-        Account account = accountService.findByEmail(extractUsername(token)).orElseThrow(AccountNotFoundException::new);
+        Account account = accountService.findByEmail(extractUsername(token));//.orElseThrow(AccountNotFoundException::new);
         return account.getId();
     }
 }

@@ -67,7 +67,7 @@ class PostServiceTest {
         Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         Post post = new Post(ID, TITLE, BODY, null, account);
 
-        when(accountService.findByEmail(EMAIL)).thenReturn(Optional.of(account));
+        //when(accountService.findByEmail(EMAIL)).thenReturn(Optional.of(account));
         when(postMapper.toPost(postDTO, account)).thenReturn(post);
         when(postRepository.save(any(Post.class))).thenReturn(post);
 
@@ -88,7 +88,7 @@ class PostServiceTest {
         postDTO.setTitle(TITLE);
         postDTO.setBody(BODY);
 
-        when(accountService.findByEmail(EMAIL)).thenReturn(Optional.empty());
+        //when(accountService.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
         assertThrows(AccountNotFoundException.class, () -> postService.save(postDTO, EMAIL));
 

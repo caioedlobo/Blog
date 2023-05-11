@@ -99,10 +99,10 @@ class AccountServiceTest {
         Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         when(accountRepository.findByEmail(account.getEmail())).thenReturn(account);
 
-        Optional<Account> result = accountService.findByEmail(EMAIL);
+        Account result = accountService.findByEmail(EMAIL);
 
-        assertTrue(result.isPresent());
-        assertEquals(account, result.get());
+        //assertTrue(result.isPresent());
+        assertEquals(account, result);
     }
 
     @Test

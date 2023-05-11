@@ -2,6 +2,7 @@ package br.com.caiolobo.blogapplication.controllers;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
 import br.com.caiolobo.blogapplication.models.PasswordRequest;
+import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;

@@ -52,7 +52,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        Account account = accountService.findByEmail(request.getEmail()).orElseThrow(AccountNotFoundException::new);
+        Account account = accountService.findByEmail(request.getEmail());//.orElseThrow(AccountNotFoundException::new);
         String jwtToken = jwtService.generateToken(account);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

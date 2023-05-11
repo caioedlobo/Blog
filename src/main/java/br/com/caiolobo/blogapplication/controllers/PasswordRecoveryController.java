@@ -22,7 +22,7 @@ public class PasswordRecoveryController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity<String> generateToken(@RequestBody RecoveryPasswordRequest request) {
+    public ResponseEntity<String> generatePasswordToken(@RequestBody RecoveryPasswordRequest request) {
         passwordRecoveryService.generateToken(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("Se a conta existir no sistema, foi enviado um email.");
     }
