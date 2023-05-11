@@ -30,18 +30,19 @@ public class AccountService {
     }
 
     public Account save(Account account){
-        Account newAccount = accountRepository.findByEmail(account.getEmail());
-        if( newAccount == null){
-            return accountRepository.save(account);
-        }
-        throw new AccountAlreadyExistsException();
+        return accountRepository.save(findByEmail(account.getEmail()));
     }
     public List<Account> getAll(){
         return accountRepository.findAll();
     }
 
-    public Optional<Account> findByEmail(String email){
-        return Optional.ofNullable(accountRepository.findByEmail(email));
+    public Account findByEmail(String email){
+
+        Account account = accountRepository.findByEmail(email);
+        if(account == null){
+            throw new AccountNotFoundException();
+        }
+        return account;
     }
 
     public AccountDTO findById(Long id){
@@ -49,7 +50,7 @@ public class AccountService {
     }
 
     public void updateName(String email, AccountUpdateDTO accountUpdateDTO){
-        Account account = accountRepository.findByEmail(email);
+        Account account = findByEmail(email);
         account.setFirstName(accountUpdateDTO.getFirstName());
         account.setLastName(accountUpdateDTO.getLastName());
         accountRepository.save(account);
@@ -66,18 +67,18 @@ public class AccountService {
 
 
     public void updatePassword(String email, PasswordRequest passwordRequest) {
-        Account account = accountRepository.findByEmail(email);
+        Account account = findByEmail(email);
         account.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
         accountRepository.save(account);
     }
 
     public Long getAccountId(String email) {
-        Account account = accountRepository.findByEmail(email);
+        Account account = findByEmail(email);
         return account.getId();
     }
 
     public void delete(String emailFromRequest) {
-        Account account = accountRepository.findByEmail(emailFromRequest);
+        Account account = findByEmail(emailFromRequest);
         postDeletionService.deleteAllPosts(account.getId());
         accountRepository.delete(account);
     }
