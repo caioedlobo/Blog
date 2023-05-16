@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PostDeletionService {      // classe criada para evitar a Circylar Dependency
+public class PostDeletionService {      // classe criada para evitar a Circular Dependency
 
     private final PostRepository postRepository;
 
@@ -16,7 +16,7 @@ public class PostDeletionService {      // classe criada para evitar a Circylar 
     }
 
     public void deleteAllPosts(Long id) {
-        List<Post> posts = postRepository.findByAccountId(id);
+        List<Post> posts = postRepository.findAllByAccountId(id);
         for(Post post: posts){
             postRepository.delete(post);
         }

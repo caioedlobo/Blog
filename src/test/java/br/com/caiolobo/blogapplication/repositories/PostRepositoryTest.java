@@ -42,10 +42,10 @@ class PostRepositoryTest {
         posts.add(post1);
         posts.add(post2);
 
-        when(postRepository.findByAccountId(id)).thenReturn(posts);
+        when(postRepository.findAllByAccountId(id)).thenReturn(posts);
 
         //when
-        List<Post> result = postRepository.findByAccountId(id);
+        List<Post> result = postRepository.findAllByAccountId(id);
 
         //then
         assertEquals(posts, result);

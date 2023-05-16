@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.controllers;
 
+import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.View;
@@ -9,6 +10,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,9 +61,9 @@ public class PostController {
 
     @Operation(summary = "Get all Posts by Account ID")
     @GetMapping(value = "/all-posts/{accountId}")
-    @JsonView(View.Base.class)
-    public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id){
-        return ResponseEntity.ok(postService.getAllById(id));
+    //@JsonView(View.Base.class)
+    public ResponseEntity<Page<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id, Pageable pageable){
+        return ResponseEntity.ok(postService.getAllById(id, pageable));
     }
 
     @Operation(summary = "Get all Posts")

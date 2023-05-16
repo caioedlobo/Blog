@@ -7,8 +7,12 @@ import br.com.caiolobo.blogapplication.mappers.PostMapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
+import jakarta.persistence.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.annotation.Annotation;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,11 +53,13 @@ public class PostService {
         return postMapper.postsToDto(postRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query));
     }
 
+    public Page<PostDTO> getAllById(Long id, Pageable pageable){
 
+        Page<Post> posts = postRepository.findAllByAccountId(id, pageable);
+        return postMapper.postsPageToDto(posts);
 
-    public List<PostDTO> getAllById(Long id){
-        //*return convertPostsToDto(postRepository.findByAccountId(id));
-        return postMapper.postsToDto(postRepository.findByAccountId(id));
+        //return postMapper.dtoToPage(postMapper.postsToDto(posts));
+        //return postMapper.postsToDto(postRepository.findByAccountId(id, pageable));
     }
 
     private Set<String> addAccountAuthoritiesToDto(Account account){

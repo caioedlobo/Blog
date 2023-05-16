@@ -5,6 +5,7 @@ import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,6 @@ public class PostAccountMapper{
         dto.setAccount(accountToDto(post.getAccount()));
         return dto;
     }
-
 
     public Post dtoToPost(PostDTO dto, Account account) {
         Post post = new Post();
@@ -67,6 +67,9 @@ public class PostAccountMapper{
 
     public List<PostDTO> postsToDto(List<Post> dtos) {
         return dtos.stream().map(this::postToDto).collect(Collectors.toList());
+    }
+    public Page<PostDTO> postsPageToDto(Page<Post> posts) {
+        return posts.map(this::postToDto);
     }
     /*
     public PostDTO postToDtoWithoutAccount(Post post) {
