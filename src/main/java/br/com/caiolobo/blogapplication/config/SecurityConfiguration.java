@@ -40,6 +40,7 @@ public class SecurityConfiguration {
             //Application
             "/api/v1/auth/**",
             "/api/v1/posts/all-posts/**",
+            "/api/v1/posts/{id}",
             "/api/v1/forgot-password/**",
             "/api/v1/auth/is-authenticated/"
     };
