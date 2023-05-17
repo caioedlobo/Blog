@@ -2,6 +2,7 @@ package br.com.caiolobo.blogapplication.mappers;
 
 import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
+import br.com.caiolobo.blogapplication.models.PageWrapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 
@@ -33,7 +34,6 @@ public class PostAccountMapper{
         //post.setAccount(dtoToAccount(dto.getAccount()));
         post.setAccount(account);
         return post;
-
     }
 
     public AccountDTO accountToDto(Account account) {
@@ -49,8 +49,6 @@ public class PostAccountMapper{
 
     public Account dtoToAccount(AccountDTO dto,  List<Post> posts) {
         Account account = new Account();
-        System.out.println(dto);
-        System.out.println(dto.getFirstName());
         account.setFirstName(dto.getFirstName());
         account.setLastName(dto.getLastName());
         account.setEmail(dto.getEmail());
@@ -70,6 +68,12 @@ public class PostAccountMapper{
     }
     public Page<PostDTO> postsPageToDto(Page<Post> posts) {
         return posts.map(this::postToDto);
+    }
+
+    public PageWrapper<PostDTO> postsPageWrapperToDto(Page<Post> posts) {
+        List<PostDTO> content = posts.getContent().stream().map(this::postToDto).collect(Collectors.toList());
+
+        return new PageWrapper<>(content, posts.getPageable(), posts.getTotalElements());
     }
     /*
     public PostDTO postToDtoWithoutAccount(Post post) {

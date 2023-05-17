@@ -27,6 +27,4 @@ public class PostDTO {
 
     @JsonView(View.Base.class)
     private AccountDTO account;
-
-
 }

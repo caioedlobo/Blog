@@ -1,5 +1,6 @@
 package br.com.caiolobo.blogapplication.controllers;
 
+import br.com.caiolobo.blogapplication.models.PageWrapper;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.services.JwtService;
 import br.com.caiolobo.blogapplication.dto.PostDTO;
@@ -61,8 +62,8 @@ public class PostController {
 
     @Operation(summary = "Get all Posts by Account ID")
     @GetMapping(value = "/all-posts/{accountId}")
-    //@JsonView(View.Base.class)
-    public ResponseEntity<Page<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id, Pageable pageable){
+    @JsonView(View.Base.class)
+    public ResponseEntity<PageWrapper<PostDTO>> getAllPostsByUserId(@PathVariable("accountId") Long id, Pageable pageable){
         return ResponseEntity.ok(postService.getAllById(id, pageable));
     }
 

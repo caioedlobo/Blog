@@ -12,12 +12,20 @@ public class PageWrapperSerializer extends JsonSerializer<PageWrapper<?>> {
     public void serialize(PageWrapper<?> pageWrapper, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeObjectField("content", pageWrapper.getContent());
-        jsonGenerator.writeNumberField("totalElements", pageWrapper.getTotalElements());
-        // Adicione outros campos da página, se necessário
+        jsonGenerator.writeObjectField("totalElements", pageWrapper.getTotalElements());
+
+        // Serializar o Pageable manualmente
+        jsonGenerator.writeObjectFieldStart("pageable");
+        jsonGenerator.writeBooleanField("paged", pageWrapper.getPageable().isPaged());
+        jsonGenerator.writeNumberField("pageNumber", pageWrapper.getPageable().getPageNumber());
+        jsonGenerator.writeNumberField("pageSize", pageWrapper.getPageable().getPageSize());
+        // Outros campos do Pageable, se necessário
+        jsonGenerator.writeEndObject();
 
         jsonGenerator.writeEndObject();
     }
 }
+
 
 
 

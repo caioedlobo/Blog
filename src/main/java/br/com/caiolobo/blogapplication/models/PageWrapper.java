@@ -1,12 +1,15 @@
 package br.com.caiolobo.blogapplication.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JsonSerialize(using = PageWrapperSerializer.class)
+@JsonView(View.Base.class)
 public class PageWrapper<T> {
     private final List<T> content;
     private final Pageable pageable;
@@ -17,6 +20,7 @@ public class PageWrapper<T> {
         this.pageable = pageable;
         this.totalElements = totalElements;
     }
+
 
     public List<T> getContent() {
         return content;

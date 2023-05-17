@@ -4,9 +4,12 @@ import br.com.caiolobo.blogapplication.dto.PostDTO;
 import br.com.caiolobo.blogapplication.exceptions.PostNotFoundException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
 import br.com.caiolobo.blogapplication.mappers.PostMapper;
+import br.com.caiolobo.blogapplication.models.PageWrapper;
+import br.com.caiolobo.blogapplication.models.View;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 import br.com.caiolobo.blogapplication.repositories.PostRepository;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,10 +56,11 @@ public class PostService {
         return postMapper.postsToDto(postRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query));
     }
 
-    public Page<PostDTO> getAllById(Long id, Pageable pageable){
+    public PageWrapper<PostDTO> getAllById(Long id, Pageable pageable){
 
         Page<Post> posts = postRepository.findAllByAccountId(id, pageable);
-        return postMapper.postsPageToDto(posts);
+        //return postMapper.postsPageToDto(posts);
+        return postMapper.postsPageWrapperToDto(posts);
 
         //return postMapper.dtoToPage(postMapper.postsToDto(posts));
         //return postMapper.postsToDto(postRepository.findByAccountId(id, pageable));

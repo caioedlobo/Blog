@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.mappers;
 
 import br.com.caiolobo.blogapplication.dto.PostDTO;
+import br.com.caiolobo.blogapplication.models.PageWrapper;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.models.entities.Post;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,9 @@ public class PostMapper {
     }
     public Page<PostDTO> postsPageToDto(Page<Post> posts){
         return postAccountMapper.postsPageToDto(posts);
+    }
+    public PageWrapper<PostDTO> postsPageWrapperToDto(Page<Post> posts){
+        return postAccountMapper.postsPageWrapperToDto(posts);
     }
 
 }
