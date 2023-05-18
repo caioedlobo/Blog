@@ -30,7 +30,10 @@ public class AccountService {
     }
 
     public Account save(Account account){
-        return accountRepository.save(findByEmail(account.getEmail()));
+        if (accountRepository.findByEmail(account.getEmail()) != null){
+            throw new AccountAlreadyExistsException();
+        }
+        return accountRepository.save(account);
     }
     public List<Account> getAll(){
         return accountRepository.findAll();

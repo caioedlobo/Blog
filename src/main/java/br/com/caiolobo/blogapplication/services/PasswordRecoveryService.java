@@ -72,7 +72,7 @@ public class PasswordRecoveryService {
     private Boolean isTokenExpired(PasswordTokenPublicData publicData){
         Instant createdAt = new Date(publicData.getCreateAtTimestamp()).toInstant();
         Instant now = new Date().toInstant();
-        return createdAt.plus(Duration.ofDays(1)).isBefore(now);
+        return createdAt.plus(Duration.ofDays(2)).isBefore(now);
     }
 
     private PasswordTokenPublicData readPublicData(String token){
