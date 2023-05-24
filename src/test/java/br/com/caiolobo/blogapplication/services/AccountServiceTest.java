@@ -1,6 +1,7 @@
 package br.com.caiolobo.blogapplication.services;
 
 import br.com.caiolobo.blogapplication.auth.AuthenticationRequest;
+import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
@@ -13,10 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,11 +50,24 @@ class AccountServiceTest {
 
     private Account account;
     private Account account2;
+    private AccountDTO accountDTO;
 
     @BeforeEach
     void setUp() {
         accountService = new AccountService(accountRepository, passwordEncoder, postDeletionService, accountMapper);
         startAccounts();
+    }
+
+    @Test
+    void itShouldFindById(){
+        when(accountRepository.findById(anyLong())).thenReturn(Optional.of(account));
+        when(accountMapper.toDto(account)).thenReturn(accountDTO);
+
+        AccountDTO response = accountService.findById(ID);
+
+        assertNotNull(response);
+        assertEquals(AccountDTO.class, response.getClass());
+        assertEquals(ID, response.getId());
     }
 
     @Test
@@ -153,5 +169,6 @@ class AccountServiceTest {
     private void startAccounts(){
         account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         account2 = new Account(2L, "teste2@teste.com", PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        accountDTO = new AccountDTO(ID, EMAIL, FIRST_NAME, LAST_NAME, null, null);
     }
 }
