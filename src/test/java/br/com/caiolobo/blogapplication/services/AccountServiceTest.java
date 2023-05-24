@@ -45,15 +45,17 @@ class AccountServiceTest {
     @Mock
     private AccountMapper accountMapper;
 
+    private Account account;
+    private Account account2;
+
     @BeforeEach
     void setUp() {
         accountService = new AccountService(accountRepository, passwordEncoder, postDeletionService, accountMapper);
+        startAccounts();
     }
 
     @Test
     void itShouldSaveAccount() {
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-
         when(accountRepository.findByEmail(account.getEmail())).thenReturn(null);
         when(accountRepository.save(any(Account.class))).thenReturn(account);
 
@@ -69,7 +71,6 @@ class AccountServiceTest {
 
     @Test
     void itShouldThrowAccountAlreadyExistsExceptionWhenTryingToSaveAccountWithExistingEmail() {
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
 
         assertThrows(AccountAlreadyExistsException.class, () -> accountService.save(account));
@@ -80,8 +81,6 @@ class AccountServiceTest {
 
     @Test
     void itShouldGetAllAccounts(){
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-        Account account2 = new Account(2L, "teste2@teste.com", PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         List<Account> accounts = Arrays.asList(account, account2);
 
         when(accountRepository.findAll()).thenReturn(accounts);
@@ -96,7 +95,6 @@ class AccountServiceTest {
 
     @Test
     void itShouldFindAccountByEmail(){
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         when(accountRepository.findByEmail(account.getEmail())).thenReturn(account);
 
         Account result = accountService.findByEmail(EMAIL);
@@ -107,8 +105,6 @@ class AccountServiceTest {
 
     @Test
     void itShouldUpdateAccountName(){
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-
         AccountUpdateDTO accountUpdateDTO = new AccountUpdateDTO();
         accountUpdateDTO.setFirstName("Jane");
         accountUpdateDTO.setLastName("Doa");
@@ -146,13 +142,16 @@ class AccountServiceTest {
 
     @Test
     void itShouldDeleteAccount(){
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
         accountService.delete(account.getEmail());
 
         verify(postDeletionService, times(1)).deleteAllPosts(account.getId());
         verify(accountRepository, times(1)).delete(account);
 
+    }
+
+    private void startAccounts(){
+        account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        account2 = new Account(2L, "teste2@teste.com", PASSWORD, FIRST_NAME, LAST_NAME, null, null);
     }
 }
