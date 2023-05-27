@@ -5,6 +5,7 @@ import br.com.caiolobo.blogapplication.dto.AccountDTO;
 import br.com.caiolobo.blogapplication.dto.AccountUpdateDTO;
 import br.com.caiolobo.blogapplication.exceptions.AccountAlreadyExistsException;
 import br.com.caiolobo.blogapplication.mappers.AccountMapper;
+import br.com.caiolobo.blogapplication.models.PasswordRequest;
 import br.com.caiolobo.blogapplication.models.entities.Account;
 import br.com.caiolobo.blogapplication.repositories.AccountRepository;
 
@@ -86,7 +87,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void itShouldThrowAccountAlreadyExistsExceptionWhenTryingToSaveAccountWithExistingEmail() {
+    void itShouldThrowAccountAlreadyExistsExceptionWhenTryingToSaveAccount() {
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
 
         assertThrows(AccountAlreadyExistsException.class, () -> accountService.save(account));
@@ -115,7 +116,6 @@ class AccountServiceTest {
 
         Account result = accountService.findByEmail(EMAIL);
 
-        //assertTrue(result.isPresent());
         assertEquals(account, result);
     }
 
@@ -137,25 +137,25 @@ class AccountServiceTest {
         assertEquals(account.getLastName(), accountUpdateDTO.getLastName());
     }
 
-    /*@Test
+    @Test
     void itShouldUpdateAccountPassword() {
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-        String newPassword = "newPassword";
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
-        authenticationRequest.setEmail(EMAIL);
-        authenticationRequest.setPassword(newPassword);
+        String encodedPassword = "encodedPassword";
+        PasswordRequest passwordRequest = new PasswordRequest("newPassword");
 
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
+        when(passwordEncoder.encode(passwordRequest.getPassword())).thenReturn(encodedPassword);
         when(accountRepository.save(account)).thenReturn(account);
 
-        accountService.updatePassword(authenticationRequest);
+
+        accountService.updatePassword(account.getEmail(), passwordRequest);
 
         verify(accountRepository, times(1)).findByEmail(EMAIL);
         verify(accountRepository, times(1)).save(account);
+        verify(passwordEncoder, times(1)).encode(passwordRequest.getPassword());
 
         assertNotEquals(PASSWORD, account.getPassword());
-    }*/
-
+        assertEquals(encodedPassword, account.getPassword());
+    }
     @Test
     void itShouldDeleteAccount(){
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
