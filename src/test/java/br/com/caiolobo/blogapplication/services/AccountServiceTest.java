@@ -156,6 +156,15 @@ class AccountServiceTest {
         assertNotEquals(PASSWORD, account.getPassword());
         assertEquals(encodedPassword, account.getPassword());
     }
+
+    @Test
+    void itShouldGetAccountId(){
+        when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
+        accountService.getAccountId(account.getEmail());
+
+        assertNotNull(account);
+        assertEquals(ID, account.getId());
+    }
     @Test
     void itShouldDeleteAccount(){
         when(accountRepository.findByEmail(EMAIL)).thenReturn(account);
