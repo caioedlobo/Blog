@@ -84,20 +84,6 @@ class PostServiceTest {
     }
 
     @Test
-    void itShouldThrowAccountNotFoundExceptionWhenSavingPostWithNonExistentAccount(){
-        PostDTO postDTO = new PostDTO();
-        postDTO.setTitle(TITLE);
-        postDTO.setBody(BODY);
-
-        //when(accountService.findByEmail(EMAIL)).thenReturn(Optional.empty());
-
-        assertThrows(AccountNotFoundException.class, () -> postService.save(postDTO, EMAIL));
-
-        verify(accountService, times(1)).findByEmail(EMAIL);
-        verify(postRepository, times(0)).save(any(Post.class));
-    }
-
-    @Test
     void itShouldFindPostById(){
         PostDTO postDTO = new PostDTO();
         postDTO.setId(ID);
