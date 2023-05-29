@@ -54,22 +54,23 @@ class PostServiceTest {
     @InjectMocks
     private PostService postService;
 
+    private Account account;
+    private Post post;
+    private PostDTO postDTO;
+    private AccountDTO accountDTO;
+
     @BeforeEach
     void setUp(){
         postService = new PostService(postRepository, accountService, accountMapper, postMapper);
+        startPosts();
     }
 
     @Test
     void itShouldSave(){
-        PostDTO postDTO = new PostDTO();
-        postDTO.setTitle(TITLE);
-        postDTO.setBody(BODY);
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-        Post post = new Post(ID, TITLE, BODY, null, account);
 
-        //when(accountService.findByEmail(EMAIL)).thenReturn(Optional.of(account));
+        when(accountService.findByEmail(EMAIL)).thenReturn(account);
         when(postMapper.toPost(postDTO, account)).thenReturn(post);
-        when(postRepository.save(any(Post.class))).thenReturn(post);
+        when(postRepository.save(post)).thenReturn(post);
 
         PostDTO result = postService.save(postDTO, EMAIL);
 
@@ -124,6 +125,14 @@ class PostServiceTest {
         assertThrows(PostNotFoundException.class, () -> postService.findById(ID));
 
         verify(postRepository, times(1)).findById(ID);
+    }
+
+    private void startPosts(){
+        accountDTO = new AccountDTO(ID, EMAIL, FIRST_NAME, LAST_NAME, null, null);
+        postDTO = new PostDTO(ID, TITLE, BODY, null, accountDTO);
+        account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
+        post = new Post(ID, TITLE, BODY, null, account);
+
     }
 
 }
