@@ -76,13 +76,6 @@ class PostServiceTest {
 
     @Test
     void itShouldFindPostById(){
-        PostDTO postDTO = new PostDTO();
-        postDTO.setId(ID);
-        postDTO.setTitle(TITLE);
-        postDTO.setBody(BODY);
-        Account account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
-        Post post = new Post(ID, TITLE, BODY, null, account);
-
         when(postMapper.toDto(post)).thenReturn(postDTO);
         when(postRepository.findById(ID)).thenReturn(Optional.of(post));
 
