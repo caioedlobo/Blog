@@ -16,6 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -49,6 +52,8 @@ class PostServiceTest {
     private Post post;
     private PostDTO postDTO;
     private AccountDTO accountDTO;
+    private Post post2;
+    private PostDTO postDTO2;
 
     @BeforeEach
     void setUp(){
@@ -97,11 +102,33 @@ class PostServiceTest {
         verify(postRepository, times(1)).findById(ID);
     }
 
+    @Test
+    void itShouldGetAllPosts(){
+        List<Post> posts = Arrays.asList(post, post2);
+        List<PostDTO> postDTOs = Arrays.asList(postDTO, postDTO2);
+
+        when(postRepository.findAll()).thenReturn(posts);
+        when(postMapper.postsToDto(posts)).thenReturn(postDTOs);
+
+        List<PostDTO> result = postService.getAll();
+
+        assertNotNull(result);
+        assertEquals(postDTOs.size(), result.size());
+        assertEquals(postDTOs.get(0).getId(), result.get(0).getId());
+        assertEquals(postDTOs.get(1).getId(), result.get(1).getId());
+
+        verify(postRepository, times(1)).findAll();
+        verify(postMapper, times(1)).postsToDto(posts);
+    }
+
+
     private void startPosts(){
         accountDTO = new AccountDTO(ID, EMAIL, FIRST_NAME, LAST_NAME, null, null);
         postDTO = new PostDTO(ID, TITLE, BODY, null, accountDTO);
+        postDTO2 = new PostDTO(2L, TITLE, BODY, null, accountDTO);
         account = new Account(ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, null, null);
         post = new Post(ID, TITLE, BODY, null, account);
+        post2 = new Post(2L, TITLE, BODY, null, account);
 
     }
 
