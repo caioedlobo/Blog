@@ -121,6 +121,25 @@ class PostServiceTest {
         verify(postMapper, times(1)).postsToDto(posts);
     }
 
+    @Test
+    void itShouldFindPostsByQuery(){
+        List<Post> posts = Arrays.asList(post, post2);
+        List<PostDTO> postDTOs = Arrays.asList(postDTO, postDTO2);
+        String query = post.getTitle();
+        when(postRepository.findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query)).thenReturn(posts);
+        when(postMapper.postsToDto(posts)).thenReturn(postDTOs);
+
+        List<PostDTO> result = postService.findByQuery(query);
+
+        assertNotNull(result);
+        assertEquals(postDTOs.size(), result.size());
+        assertEquals(postDTOs.get(0).getId(), result.get(0).getId());
+        assertEquals(postDTOs.get(1).getId(), result.get(1).getId());
+
+        verify(postRepository, times(1)).findByTitleContainingIgnoreCaseOrBodyContainingIgnoreCase(query, query);
+        verify(postMapper, times(1)).postsToDto(posts);
+    }
+
 
     private void startPosts(){
         accountDTO = new AccountDTO(ID, EMAIL, FIRST_NAME, LAST_NAME, null, null);
