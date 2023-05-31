@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -17,17 +18,15 @@ class AccountRepositoryTest {
 
     @Test
     void findByEmail() {
-        // given
         String email = "fulano@gmail.com";
         Account account = new Account();
         account.setEmail(email);
 
         when(accountRepository.findByEmail(email)).thenReturn(account);
 
-        // when
         Account result = accountRepository.findByEmail(email);
 
-        // then
+        assertNotNull(result);
         assertEquals(email, result.getEmail());
     }
 }
